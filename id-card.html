@@ -1,89 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>School ID Card Generator</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 
 body{
 font-family:Arial;
 background:#f2f2f2;
-text-align:center;
 padding:20px;
+text-align:center;
 }
 
 input,select{
+width:300px;
 padding:8px;
 margin:5px;
-width:200px;
 }
 
 button{
 padding:10px 15px;
-margin-top:10px;
+margin:5px;
 cursor:pointer;
 }
 
-#idCard{
-
-width:420px;
-height:250px;
-border-radius:10px;
-color:white;
-padding:15px;
+#card{
+width:520px;
+height:300px;
 margin:auto;
-margin-top:20px;
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
 position:relative;
+}
 
+.header{
+background:#1e3a8a;
+color:white;
+padding:10px;
+text-align:center;
 }
 
 .school{
-text-align:center;
+font-size:22px;
 font-weight:bold;
-font-size:18px;
 }
 
 .address{
-text-align:center;
 font-size:12px;
-margin-bottom:10px;
 }
 
-.cardTitle{
+.identity{
 text-align:center;
 font-weight:bold;
-margin-bottom:10px;
+margin:5px;
 }
 
 .details{
-float:left;
+display:flex;
+padding:10px;
+}
+
+.left{
 width:60%;
 font-size:14px;
 }
 
+.right{
+width:40%;
+text-align:center;
+}
+
 .photo{
-float:right;
-width:90px;
-height:110px;
-border:2px solid white;
+width:120px;
+height:140px;
+border:2px solid black;
 object-fit:cover;
 }
 
-.session{
+.sign{
+width:100px;
+margin-top:5px;
+}
+
+.footer{
 position:absolute;
-bottom:5px;
+bottom:0;
 width:100%;
+background:#1e3a8a;
+color:white;
 text-align:center;
-font-size:12px;
+padding:5px;
+}
+
+.logo{
+position:absolute;
+left:10px;
+top:10px;
+width:40px;
+height:40px;
+border-radius:50%;
+object-fit:cover;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <h2>School ID Card Generator</h2>
+
+<br>
+
+<input id="schoolName" placeholder="School Name"><br>
+<input id="schoolAddress" placeholder="School Address"><br>
+<input id="session" placeholder="Session (2024-2025)"><br>
 
 <input id="name" placeholder="Student Name"><br>
 <input id="father" placeholder="Father Name"><br>
@@ -93,121 +128,156 @@ font-size:12px;
 
 <br>
 
-Photo Upload  
-<input type="file" id="uploadPhoto">
+Student Photo  
+<input type="file" id="photo"><br>
 
-<br><br>
+School Logo  
+<input type="file" id="logo"><br>
+
+Principal Signature  
+<input type="file" id="sign"><br><br>
 
 Color Template
 
-<select id="cardColor">
-
+<select id="color">
 <option value="#1e3a8a">Blue</option>
-<option value="#0f172a">Dark Blue</option>
-<option value="#38bdf8">Sky Blue</option>
-<option value="#dc2626">Red</option>
-<option value="#7f1d1d">Dark Red</option>
-<option value="#16a34a">Green</option>
-<option value="#14532d">Dark Green</option>
-<option value="#f97316">Orange</option>
+<option value="#b91c1c">Red</option>
+<option value="#047857">Green</option>
 <option value="#7c3aed">Purple</option>
-<option value="#ec4899">Pink</option>
-<option value="#0d9488">Teal</option>
-<option value="#4f46e5">Indigo</option>
-<option value="#78350f">Brown</option>
-<option value="#000000">Black</option>
-<option value="#d4af37">Gold</option>
-
+<option value="#ea580c">Orange</option>
+<option value="#0f766e">Teal</option>
+<option value="#374151">Gray</option>
+<option value="#be123c">Pink</option>
+<option value="#15803d">Dark Green</option>
+<option value="#1d4ed8">Royal Blue</option>
+<option value="#9f1239">Wine</option>
+<option value="#0ea5e9">Sky</option>
+<option value="#9333ea">Violet</option>
+<option value="#dc2626">Dark Red</option>
+<option value="#0f172a">Navy</option>
 </select>
 
-<br>
+<br><br>
 
-<button onclick="generateCard()">Generate ID</button>
+<button onclick="generate()">Preview</button>
+<button onclick="downloadPNG()">Download PNG</button>
 
-<button onclick="downloadCard()">Download PNG</button>
+<br><br>
 
-<div id="idCard">
+<div id="card">
 
-<div class="school">
-AGGARWAL PUBLIC SCHOOL
+<img id="logoPreview" class="logo">
+
+<div class="header" id="headerColor">
+
+<div class="school" id="schoolPreview">School Name</div>
+
+<div class="address" id="addressPreview">School Address</div>
+
 </div>
 
-<div class="address">
-Opp. Post Office Main Bazar Ballabgarh  
-Ph. 7291973071 , 7291973072
-</div>
-
-<div class="cardTitle">
-IDENTITY CARD
-</div>
+<div class="identity">IDENTITY CARD</div>
 
 <div class="details">
 
-Name : <span id="dname"></span><br><br>
+<div class="left">
 
-S/O D/O : <span id="dfather"></span><br><br>
-
-Class : <span id="dclass"></span><br><br>
-
-Section : <span id="dsection"></span><br><br>
-
-Ph No : <span id="dphone"></span>
+<p>Name : <span id="namePreview"></span></p>
+<p>S/O D/O : <span id="fatherPreview"></span></p>
+<p>Class : <span id="classPreview"></span></p>
+<p>Section : <span id="sectionPreview"></span></p>
+<p>Ph No : <span id="phonePreview"></span></p>
 
 </div>
 
-<img id="photo" class="photo">
+<div class="right">
 
-<div class="session">
-SESSION 2023 - 2024
+<img id="photoPreview" class="photo"><br>
+
+<img id="signPreview" class="sign">
+
+<div>Principal</div>
+
 </div>
 
 </div>
 
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<div class="footer" id="footerColor">
+SESSION <span id="sessionPreview"></span>
+</div>
+
+</div>
 
 <script>
 
-function generateCard(){
+function generate(){
 
-document.getElementById("dname").innerText =
+document.getElementById("schoolPreview").innerText=
+document.getElementById("schoolName").value;
+
+document.getElementById("addressPreview").innerText=
+document.getElementById("schoolAddress").value;
+
+document.getElementById("sessionPreview").innerText=
+document.getElementById("session").value;
+
+document.getElementById("namePreview").innerText=
 document.getElementById("name").value;
 
-document.getElementById("dfather").innerText =
+document.getElementById("fatherPreview").innerText=
 document.getElementById("father").value;
 
-document.getElementById("dclass").innerText =
+document.getElementById("classPreview").innerText=
 document.getElementById("class").value;
 
-document.getElementById("dsection").innerText =
+document.getElementById("sectionPreview").innerText=
 document.getElementById("section").value;
 
-document.getElementById("dphone").innerText =
+document.getElementById("phonePreview").innerText=
 document.getElementById("phone").value;
 
-document.getElementById("idCard").style.background =
-document.getElementById("cardColor").value;
+let color=document.getElementById("color").value;
+
+document.getElementById("headerColor").style.background=color;
+document.getElementById("footerColor").style.background=color;
+
+let photo=document.getElementById("photo").files[0];
+let logo=document.getElementById("logo").files[0];
+let sign=document.getElementById("sign").files[0];
+
+if(photo){
+let reader=new FileReader();
+reader.onload=function(e){
+document.getElementById("photoPreview").src=e.target.result;
+}
+reader.readAsDataURL(photo);
+}
+
+if(logo){
+let reader=new FileReader();
+reader.onload=function(e){
+document.getElementById("logoPreview").src=e.target.result;
+}
+reader.readAsDataURL(logo);
+}
+
+if(sign){
+let reader=new FileReader();
+reader.onload=function(e){
+document.getElementById("signPreview").src=e.target.result;
+}
+reader.readAsDataURL(sign);
+}
 
 }
 
-document.getElementById("uploadPhoto").onchange=function(e){
+function downloadPNG(){
 
-let reader = new FileReader();
-
-reader.onload=function(){
-document.getElementById("photo").src = reader.result;
-}
-
-reader.readAsDataURL(e.target.files[0]);
-
-}
-
-function downloadCard(){
-
-html2canvas(document.getElementById("idCard")).then(canvas=>{
+html2canvas(document.querySelector("#card")).then(canvas=>{
 
 let link=document.createElement("a");
 
-link.download="idcard.png";
+link.download="school-id-card.png";
 
 link.href=canvas.toDataURL();
 
@@ -220,4 +290,4 @@ link.click();
 </script>
 
 </body>
-  </html>
+</html>
