@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>School ID Card Generator</title>
 
@@ -11,14 +12,14 @@
 body{
 font-family:Arial;
 background:#f2f2f2;
-padding:20px;
 text-align:center;
+padding:20px;
 }
 
 input,select{
 width:300px;
 padding:8px;
-margin:5px;
+margin:6px;
 }
 
 button{
@@ -35,7 +36,6 @@ background:white;
 border-radius:12px;
 overflow:hidden;
 box-shadow:0 0 10px rgba(0,0,0,0.3);
-position:relative;
 }
 
 .header{
@@ -43,10 +43,20 @@ background:#1e3a8a;
 color:white;
 padding:10px;
 text-align:center;
+position:relative;
+}
+
+.logo{
+position:absolute;
+left:10px;
+top:8px;
+width:45px;
+height:45px;
+border-radius:50%;
 }
 
 .school{
-font-size:22px;
+font-size:26px;
 font-weight:bold;
 }
 
@@ -54,57 +64,51 @@ font-weight:bold;
 font-size:12px;
 }
 
+.phone{
+font-size:12px;
+}
+
 .identity{
-text-align:center;
 font-weight:bold;
-margin:5px;
+margin-top:5px;
+margin-bottom:5px;
+}
+
+.content{
+display:flex;
+padding:10px;
+justify-content:space-between;
 }
 
 .details{
-display:flex;
-padding:10px;
+font-size:15px;
+font-weight:bold;
+text-align:left;
+line-height:28px;
 }
 
-.left{
-width:60%;
-font-size:14px;
-}
-
-.right{
-width:40%;
+.photoBox{
 text-align:center;
 }
 
 .photo{
-width:120px;
-height:140px;
+width:110px;
+height:130px;
 border:2px solid black;
 object-fit:cover;
 }
 
 .sign{
-width:100px;
-margin-top:5px;
+width:90px;
+margin-top:3px;
 }
 
 .footer{
-position:absolute;
-bottom:0;
-width:100%;
 background:#1e3a8a;
 color:white;
 text-align:center;
-padding:5px;
-}
-
-.logo{
-position:absolute;
-left:10px;
-top:10px;
-width:40px;
-height:40px;
-border-radius:50%;
-object-fit:cover;
+padding:6px;
+font-weight:bold;
 }
 
 </style>
@@ -114,11 +118,10 @@ object-fit:cover;
 
 <h2>School ID Card Generator</h2>
 
-<br>
-
 <input id="schoolName" placeholder="School Name"><br>
 <input id="schoolAddress" placeholder="School Address"><br>
-<input id="session" placeholder="Session (2024-2025)"><br>
+<input id="schoolPhone" placeholder="School Phone"><br>
+<input id="session" placeholder="Session"><br>
 
 <input id="name" placeholder="Student Name"><br>
 <input id="father" placeholder="Father Name"><br>
@@ -128,18 +131,19 @@ object-fit:cover;
 
 <br>
 
-Student Photo  
+Student Photo
 <input type="file" id="photo"><br>
 
-School Logo  
+School Logo
 <input type="file" id="logo"><br>
 
-Principal Signature  
+Principal Signature
 <input type="file" id="sign"><br><br>
 
 Color Template
 
 <select id="color">
+
 <option value="#1e3a8a">Blue</option>
 <option value="#b91c1c">Red</option>
 <option value="#047857">Green</option>
@@ -155,6 +159,7 @@ Color Template
 <option value="#9333ea">Violet</option>
 <option value="#dc2626">Dark Red</option>
 <option value="#0f172a">Navy</option>
+
 </select>
 
 <br><br>
@@ -166,44 +171,52 @@ Color Template
 
 <div id="card">
 
-<img id="logoPreview" class="logo">
-
 <div class="header" id="headerColor">
+
+<img id="logoPreview" class="logo">
 
 <div class="school" id="schoolPreview">School Name</div>
 
 <div class="address" id="addressPreview">School Address</div>
 
+<div class="phone" id="schoolPhonePreview">School Phone</div>
+
 </div>
 
 <div class="identity">IDENTITY CARD</div>
 
+<div class="content">
+
 <div class="details">
 
-<div class="left">
+<div>Name : <span id="namePreview"></span></div>
 
-<p>Name : <span id="namePreview"></span></p>
-<p>S/O D/O : <span id="fatherPreview"></span></p>
-<p>Class : <span id="classPreview"></span></p>
-<p>Section : <span id="sectionPreview"></span></p>
-<p>Ph No : <span id="phonePreview"></span></p>
+<div>S/O D/O : <span id="fatherPreview"></span></div>
+
+<div>Class : <span id="classPreview"></span></div>
+
+<div>Section : <span id="sectionPreview"></span></div>
+
+<div>Ph No : <span id="phonePreview"></span></div>
 
 </div>
 
-<div class="right">
+<div class="photoBox">
 
 <img id="photoPreview" class="photo"><br>
 
 <img id="signPreview" class="sign">
 
-<div>Principal</div>
+<div style="font-size:12px;font-weight:bold;">Principal</div>
 
 </div>
 
 </div>
 
 <div class="footer" id="footerColor">
+
 SESSION <span id="sessionPreview"></span>
+
 </div>
 
 </div>
@@ -217,6 +230,9 @@ document.getElementById("schoolName").value;
 
 document.getElementById("addressPreview").innerText=
 document.getElementById("schoolAddress").value;
+
+document.getElementById("schoolPhonePreview").innerText=
+document.getElementById("schoolPhone").value;
 
 document.getElementById("sessionPreview").innerText=
 document.getElementById("session").value;
