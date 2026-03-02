@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>School ID Card Generator | PVC ID Maker</title>
-
-<meta name="description" content="Free School ID Card Generator tool. Create PVC student ID cards with photo, templates, Excel bulk upload and print instantly.">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>School ID Card Generator</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -18,8 +13,7 @@
 
 body{
 font-family:Arial;
-background:#f3f4f6;
-margin:0;
+background:#f2f2f2;
 padding:20px;
 }
 
@@ -34,31 +28,29 @@ gap:20px;
 input,button{
 width:100%;
 padding:10px;
-margin:6px 0;
-font-size:14px;
+margin:5px 0;
 }
 
 button{
-background:#2563eb;
+background:#2d6cdf;
 color:white;
 border:none;
 cursor:pointer;
-}
-
-.preview{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
 }
 
 .card{
 width:320px;
 height:200px;
 background:white;
-border-radius:12px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
 padding:10px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
 position:relative;
+}
+
+.logo{
+width:40px;
+height:40px;
 }
 
 .photo{
@@ -68,15 +60,14 @@ object-fit:cover;
 border:2px solid #000;
 }
 
-.logo{
-width:40px;
-height:40px;
+.back{
+margin-top:20px;
 }
 
 .templates{
 display:grid;
 grid-template-columns:repeat(5,1fr);
-gap:6px;
+gap:5px;
 margin-top:10px;
 }
 
@@ -86,32 +77,14 @@ cursor:pointer;
 border-radius:5px;
 }
 
-.bulk{
-margin-top:20px;
-}
-
 .seo{
-max-width:900px;
-margin:auto;
 margin-top:40px;
 background:white;
-padding:25px;
+padding:20px;
 border-radius:10px;
 }
 
-.seo h2{
-margin-top:20px;
-}
-
-.links a{
-display:block;
-margin:4px 0;
-color:#2563eb;
-text-decoration:none;
-}
-
 </style>
-
 </head>
 
 <body>
@@ -123,22 +96,14 @@ text-decoration:none;
 <div>
 
 <input id="school" placeholder="School Name">
-
 <input id="student" placeholder="Student Name">
-
 <input id="parent" placeholder="Parent Name">
-
 <input id="class" placeholder="Class">
-
 <input id="section" placeholder="Section">
-
-<input id="roll" placeholder="Roll Number">
-
+<input id="roll" placeholder="Roll No">
 <input id="year" placeholder="Year">
-
-<input id="address" placeholder="School Address (Back Side)">
-
-<input id="contact" placeholder="Contact Number (Back Side)">
+<input id="address" placeholder="School Address (Back)">
+<input id="contact" placeholder="Contact Number (Back)">
 
 <label>Student Photo</label>
 <input type="file" id="photo">
@@ -146,21 +111,14 @@ text-decoration:none;
 <label>School Logo</label>
 <input type="file" id="logo">
 
-<button onclick="generate()">Preview ID</button>
-
-<button onclick="downloadCard()">Download PVC Card</button>
-
+<button onclick="preview()">Preview ID</button>
+<button onclick="download()">Download PVC Card</button>
 <button onclick="printCard()">Print PVC</button>
-
-<div class="bulk">
 
 <h3>Excel Upload (Bulk)</h3>
 
 <input type="file" id="excel">
-
 <button onclick="bulkPrint()">Bulk Print PVC</button>
-
-</div>
 
 <h3>Choose Template</h3>
 
@@ -169,9 +127,9 @@ text-decoration:none;
 </div>
 
 
-<div class="preview">
+<div>
 
-<div class="card" id="frontCard">
+<div id="cardFront" class="card">
 
 <img id="logoPreview" class="logo">
 
@@ -179,19 +137,21 @@ text-decoration:none;
 
 <img id="photoPreview" class="photo">
 
-<p>
-Name: <span id="namePreview"></span><br>
-Parent: <span id="parentPreview"></span><br>
-Class: <span id="classPreview"></span><br>
-Section: <span id="sectionPreview"></span><br>
-Roll: <span id="rollPreview"></span><br>
-Year: <span id="yearPreview"></span>
-</p>
+<div>
+
+Name : <span id="namePreview"></span><br>
+Parent : <span id="parentPreview"></span><br>
+Class : <span id="classPreview"></span><br>
+Section : <span id="sectionPreview"></span><br>
+Roll : <span id="rollPreview"></span><br>
+Year : <span id="yearPreview"></span>
+
+</div>
 
 </div>
 
 
-<div class="card" id="backCard">
+<div id="cardBack" class="card back">
 
 <h4>School Address</h4>
 
@@ -206,7 +166,6 @@ Year: <span id="yearPreview"></span>
 </div>
 
 </div>
-
 
 <script>
 
@@ -236,7 +195,7 @@ logo.onchange=function(){
 readURL(this,logoPreview)
 }
 
-function generate(){
+function preview(){
 
 schoolPreview.innerText=school.value
 namePreview.innerText=student.value
@@ -245,46 +204,30 @@ classPreview.innerText=class.value
 sectionPreview.innerText=section.value
 rollPreview.innerText=roll.value
 yearPreview.innerText=year.value
+
 addressPreview.innerText=address.value
 contactPreview.innerText=contact.value
 
 }
 
-function downloadCard(){
+function download(){
 
-html2canvas(frontCard).then(canvas=>{
+html2canvas(cardFront).then(canvas=>{
 
-let link=document.createElement("a")
-link.download="pvc-id-card.png"
-link.href=canvas.toDataURL()
-link.click()
+let a=document.createElement("a")
+a.href=canvas.toDataURL()
+a.download="pvc-id-card.png"
+a.click()
 
 })
 
 }
 
 function printCard(){
+
 window.print()
-}
-
-
-for(let i=1;i<=20;i++){
-
-let t=document.createElement("div")
-
-t.className="template"
-
-t.style.background="hsl("+i*18+",70%,70%)"
-
-t.onclick=function(){
-frontCard.style.background=this.style.background
-backCard.style.background=this.style.background
-}
-
-templates.appendChild(t)
 
 }
-
 
 excel.onchange=function(e){
 
@@ -309,7 +252,26 @@ reader.readAsArrayBuffer(e.target.files[0])
 }
 
 function bulkPrint(){
-window.print()
+alert("Bulk Print Ready")
+}
+
+for(let i=1;i<=20;i++){
+
+let t=document.createElement("div")
+
+t.className="template"
+
+t.style.background="hsl("+i*18+",70%,70%)"
+
+t.onclick=function(){
+
+cardFront.style.background=this.style.background
+cardBack.style.background=this.style.background
+
+}
+
+templates.appendChild(t)
+
 }
 
 </script>
@@ -320,40 +282,42 @@ window.print()
 <h2>About School ID Card Generator</h2>
 
 <p>
-School ID Card Generator is a free online tool that helps schools quickly create professional student ID cards. With this tool you can design PVC style ID cards similar to ATM cards used in schools and colleges. The generator allows you to add student information such as name, class, roll number, parent name, year, and school details. You can also upload a student photo and school logo to create a complete ID card design. This tool is useful for schools, coaching centers, training institutes, and educational organizations that want to generate identity cards without using complicated software.
+School ID Card Generator is a free online tool designed to help schools quickly create professional student ID cards. This tool allows administrators and teachers to generate PVC style identification cards similar to ATM cards used in many institutions. Users can enter student details such as name, class, roll number, section, and academic year. The tool also allows uploading a student photo and school logo to create a complete and professional ID design.
 </p>
 
 <h2>How to Use</h2>
 
 <p>
-To create a student ID card, first enter the school name and student details in the form. Upload the student photo and school logo. After that click on the preview button to see the front and back side of the ID card. You can select from different templates to change the design style. Once the card looks correct you can download the PVC ID card or print it directly. If you need to generate many cards at once you can upload an Excel file and use the bulk print option.
+To create a student ID card, first enter the school name and student information in the form fields. Upload the student photo and school logo if required. After filling all details, click on the preview button to generate the front and back design of the ID card. You can choose a template color to customize the appearance. Once the card looks correct, download the PVC card or print it directly. If you need to generate many ID cards at once, upload an Excel file containing student information.
 </p>
 
 <h2>Features</h2>
 
-<p>
-This tool includes many useful features such as front and back side ID card preview, multiple templates, photo upload, school logo support, Excel bulk upload, and bulk printing support. The design is made for PVC size cards so you can print them easily. It works directly in the browser and does not require any software installation.
-</p>
+<ul>
+<li>PVC style ATM size ID card</li>
+<li>Front and back card design</li>
+<li>Student photo and school logo support</li>
+<li>20 customizable templates</li>
+<li>Excel bulk upload</li>
+<li>Bulk PVC print option</li>
+<li>Instant preview and download</li>
+</ul>
 
 <h2>FAQ</h2>
 
-<p>
-<strong>Can I print PVC cards?</strong> Yes, you can download the card and print it on PVC or plastic cards.<br>
-<strong>Can I create multiple cards?</strong> Yes, you can upload Excel files and generate cards in bulk.<br>
-<strong>Is this tool free?</strong> Yes, the ID card generator is completely free to use online.
-</p>
+<p><b>Can I create bulk ID cards?</b><br>
+Yes, you can upload an Excel file to generate multiple student cards.</p>
+
+<p><b>Is this tool free?</b><br>
+Yes, the School ID Card Generator is completely free to use.</p>
 
 <h2>Related Tools</h2>
 
-<div class="links">
-
-<a href="qr-generator.html">QR Code Generator</a>
-<a href="image-to-pdf.html">Image to PDF Converter</a>
-<a href="pdf-merge.html">PDF Merge Tool</a>
-<a href="loan-calculator.html">Loan Calculator</a>
-<a href="unit-converter.html">Unit Converter</a>
-
-</div>
+<ul>
+<li><a href="qr-code-generator.html">QR Code Generator</a></li>
+<li><a href="barcode-generator.html">Barcode Generator</a></li>
+<li><a href="image-to-pdf.html">Image to PDF</a></li>
+</ul>
 
 </div>
 
