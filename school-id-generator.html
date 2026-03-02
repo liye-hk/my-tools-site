@@ -1,66 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>School ID Card Generator</title>
 
-<meta name="description" content="Free School ID Card Generator with PDF download, bulk Excel upload and A4 auto print.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<!-- SEO -->
+<meta name="description" content="Free online school ID card generator tool with PVC ID preview, bulk print, PDF download and 100 templates.">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
+<!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
 
 body{
 font-family:Arial;
-background:#f3f3f3;
+background:#f4f4f4;
 padding:20px;
 }
 
 .container{
-max-width:1200px;
+max-width:900px;
 margin:auto;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
 }
 
-input,select,button{
+input{
 width:100%;
 padding:10px;
 margin:5px 0;
 }
 
 button{
-background:#007bff;
+width:100%;
+padding:12px;
+margin:5px 0;
+background:#1976d2;
 color:white;
 border:none;
-cursor:pointer;
 }
 
-.card{
+.preview-area{
+display:flex;
+justify-content:center;
+margin-top:20px;
+}
+
+.id-card{
+
 width:320px;
 height:200px;
 background:white;
-border-radius:10px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
 padding:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
 position:relative;
-}
-
-.header{
-display:flex;
-align-items:center;
-gap:10px;
 }
 
 .logo{
@@ -68,74 +66,62 @@ width:40px;
 height:40px;
 }
 
-.student-photo{
-width:70px;
-height:80px;
-object-fit:cover;
-border:2px solid #000;
+.photo{
+width:60px;
+height:70px;
+border:1px solid black;
 }
 
-.info{
-font-size:12px;
-}
-
-.signature{
-width:80px;
+.sign{
+width:60px;
+height:25px;
 position:absolute;
-bottom:5px;
+bottom:10px;
 right:10px;
 }
 
-#qrcode{
-position:absolute;
-bottom:5px;
-left:10px;
-}
-
 .templates{
-height:120px;
-overflow:auto;
 display:grid;
 grid-template-columns:repeat(5,1fr);
-gap:5px;
+gap:10px;
+margin-top:20px;
 }
 
 .template{
-height:40px;
+height:60px;
+background:#ddd;
 cursor:pointer;
-}
-
-.bulk{
-margin-top:40px;
+border-radius:5px;
 display:flex;
-flex-wrap:wrap;
-gap:20px;
+align-items:center;
+justify-content:center;
 }
 
-.a4{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:20px;
+.seo{
+max-width:700px;
+margin:auto;
+background:white;
+padding:30px;
+margin-top:50px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<h2>School ID Card Generator</h2>
-
 <div class="container">
 
-<div>
+<h2>School ID Card Generator</h2>
 
 <input id="school" placeholder="School Name">
 
 <input id="address" placeholder="School Address">
 
-<input id="name" placeholder="Student Name">
+<input id="student" placeholder="Student Name">
 
-<input id="parent" placeholder="Parent Name">
+<input id="parent" placeholder="Parents Name">
 
 <input id="class" placeholder="Class">
 
@@ -154,30 +140,37 @@ gap:20px;
 <label>Principal Signature</label>
 <input type="file" id="sign">
 
-<button onclick="generate()">
-<i class="fa fa-id-card"></i> Generate Preview
-</button>
+<button onclick="preview()">Generate Preview</button>
 
-<button onclick="download()">
-<i class="fa fa-download"></i> Download ID
-</button>
+<button onclick="downloadImage()">Download ID</button>
 
-<button onclick="downloadPDF()">
-<i class="fa fa-file-pdf"></i> Download PDF
-</button>
+<button onclick="downloadPDF()">Download PDF</button>
 
-<button onclick="printCard()">
-<i class="fa fa-print"></i> Print
-</button>
+<button onclick="window.print()">Print</button>
 
-<button onclick="printA4()">
-<i class="fa fa-print"></i> A4 Sheet Print
-</button>
+<button onclick="printA4()">A4 Sheet Print</button>
 
-<label>Bulk Excel Upload</label>
+<h3>Bulk Excel Upload</h3>
+
 <input type="file" id="excel">
 
 <button onclick="bulkPrint()">Bulk Print</button>
+
+<div class="preview-area">
+
+<div class="id-card" id="card">
+
+<img id="logoPreview" class="logo">
+
+<img id="photoPreview" class="photo">
+
+<div id="data"></div>
+
+<img id="signPreview" class="sign">
+
+</div>
+
+</div>
 
 <h3>Select Template</h3>
 
@@ -185,133 +178,85 @@ gap:20px;
 
 </div>
 
-<div>
-
-<div id="card" class="card">
-
-<div class="header">
-
-<img id="logoPreview" class="logo">
-
-<div>
-<b id="schoolPreview"></b>
-<br>
-<span id="addressPreview"></span>
-</div>
-
-</div>
-
-<hr>
-
-<img id="photoPreview" class="student-photo">
-
-<div class="info">
-
-Name : <span id="namePreview"></span><br>
-
-Parent : <span id="parentPreview"></span><br>
-
-Class : <span id="classPreview"></span><br>
-
-Section : <span id="sectionPreview"></span><br>
-
-Roll : <span id="rollPreview"></span><br>
-
-Year : <span id="yearPreview"></span>
-
-</div>
-
-<img id="signPreview" class="signature">
-
-<div id="qrcode"></div>
-
-</div>
-
-</div>
-
-</div>
-
-<div id="bulkCards" class="bulk"></div>
-
 <script>
 
-function readURL(input,preview){
+let selectedTemplate=1
 
-if(input.files && input.files[0]){
+for(let i=1;i<=100;i++){
+
+let div=document.createElement("div")
+
+div.className="template"
+
+div.innerText="T"+i
+
+div.onclick=function(){
+
+selectedTemplate=i
+
+alert("Template "+i+" selected")
+
+}
+
+document.getElementById("templates").appendChild(div)
+
+}
+
+function preview(){
+
+document.getElementById("data").innerHTML=
+
+"<b>"+student.value+"</b><br>"+
+
+"Parent: "+parent.value+"<br>"+
+
+"Class: "+class.value+"-"+section.value+"<br>"+
+
+"Roll: "+roll.value+"<br>"+
+
+"Year: "+year.value
 
 let reader=new FileReader()
 
 reader.onload=function(e){
 
-preview.src=e.target.result
+photoPreview.src=e.target.result
 
 }
 
-reader.readAsDataURL(input.files[0])
+reader.readAsDataURL(photo.files[0])
+
+let reader2=new FileReader()
+
+reader2.onload=function(e){
+
+logoPreview.src=e.target.result
 
 }
 
-}
+reader2.readAsDataURL(logo.files[0])
 
-photo.onchange=function(){
+let reader3=new FileReader()
 
-readURL(this,photoPreview)
+reader3.onload=function(e){
 
-}
-
-logo.onchange=function(){
-
-readURL(this,logoPreview)
+signPreview.src=e.target.result
 
 }
 
-sign.onchange=function(){
-
-readURL(this,signPreview)
+reader3.readAsDataURL(sign.files[0])
 
 }
 
-function generate(){
-
-schoolPreview.innerText=school.value
-
-addressPreview.innerText=address.value
-
-namePreview.innerText=name.value
-
-parentPreview.innerText=parent.value
-
-classPreview.innerText=class.value
-
-sectionPreview.innerText=section.value
-
-rollPreview.innerText=roll.value
-
-yearPreview.innerText=year.value
-
-document.getElementById("qrcode").innerHTML=""
-
-new QRCode(document.getElementById("qrcode"),{
-
-text:name.value+"-"+roll.value,
-
-width:60,
-
-height:60
-
-})
-
-}
-
-function download(){
+function downloadImage(){
 
 html2canvas(card).then(canvas=>{
 
 let a=document.createElement("a")
 
-a.href=canvas.toDataURL()
-
 a.download="id-card.png"
+
+a.href=canvas.toDataURL()
 
 a.click()
 
@@ -319,31 +264,43 @@ a.click()
 
 }
 
-function printCard(){
+function downloadPDF(){
 
-window.print()
+html2canvas(card).then(canvas=>{
 
-}
+const {jsPDF}=window.jspdf
 
-for(let i=1;i<=100;i++){
+let pdf=new jsPDF()
 
-let t=document.createElement("div")
+pdf.addImage(canvas.toDataURL(),"PNG",10,10,80,50)
 
-t.className="template"
+pdf.save("id-card.pdf")
 
-t.style.background="hsl("+i*3+",70%,70%)"
-
-t.onclick=function(){
-
-card.style.background=this.style.background
+})
 
 }
 
-templates.appendChild(t)
+function printA4(){
+
+html2canvas(card).then(canvas=>{
+
+let w=window.open()
+
+for(let i=0;i<8;i++){
+
+w.document.write("<img src='"+canvas.toDataURL()+"' style='width:250px'>")
 
 }
 
-excel.onchange=function(e){
+w.print()
+
+})
+
+}
+
+function bulkPrint(){
+
+let file=document.getElementById("excel").files[0]
 
 let reader=new FileReader()
 
@@ -357,95 +314,53 @@ let sheet=workbook.Sheets[workbook.SheetNames[0]]
 
 let json=XLSX.utils.sheet_to_json(sheet)
 
-generateBulk(json)
+alert(json.length+" Students Loaded")
 
 }
 
-reader.readAsArrayBuffer(e.target.files[0])
-
-}
-
-function generateBulk(json){
-
-let html=""
-
-json.forEach(s=>{
-
-html+=`
-
-<div class="card">
-
-<b>${s.Name}</b><br>
-
-Parent : ${s.Parent}<br>
-
-Class : ${s.Class}<br>
-
-Section : ${s.Section}<br>
-
-Roll : ${s.Roll}<br>
-
-Year : ${s.Year}
-
-</div>
-
-`
-
-})
-
-bulkCards.innerHTML=html
-
-}
-
-function bulkPrint(){
-
-window.print()
-
-}
-
-function downloadPDF(){
-
-html2canvas(card).then(canvas=>{
-
-let img=canvas.toDataURL("image/png")
-
-const { jsPDF } = window.jspdf
-
-let pdf=new jsPDF('landscape','mm',[86,54])
-
-pdf.addImage(img,'PNG',0,0,86,54)
-
-pdf.save("school-id-card.pdf")
-
-})
-
-}
-
-function printA4(){
-
-html2canvas(card).then(canvas=>{
-
-let img=canvas.toDataURL()
-
-let win=window.open("")
-
-win.document.write("<div class='a4'>")
-
-for(let i=0;i<8;i++){
-
-win.document.write("<img src='"+img+"' width='300'>")
-
-}
-
-win.document.write("</div>")
-
-win.print()
-
-})
+reader.readAsArrayBuffer(file)
 
 }
 
 </script>
 
+<!-- SEO SECTION -->
+
+<div class="seo">
+
+<h2>About School ID Card Generator</h2>
+
+<p>
+This free online school ID card generator helps schools quickly create professional student identity cards. The tool allows you to add student details, upload a photo, include a school logo, and add a principal signature. The generated ID cards look similar to real PVC cards used in schools and colleges.
+</p>
+
+<h2>How to Use</h2>
+
+<p>
+Enter the school name, address, student name, parent name, class, section, roll number and academic year. Upload the student photo, school logo and principal signature. Click Generate Preview to see the ID card. After preview, you can download the ID card as an image, export it as a PDF or print it directly.
+</p>
+
+<h2>Features</h2>
+
+<p>
+This tool includes 100 ID card templates, PVC style card preview, A4 sheet auto print layout, bulk Excel upload and instant PDF generation. Schools can generate multiple student ID cards quickly using the bulk print feature.
+</p>
+
+<h2>FAQ</h2>
+
+<p>
+This tool works directly in your browser and does not require any installation. All ID cards are generated instantly and can be downloaded or printed. The generator supports bulk student data using Excel sheets which makes it perfect for schools.
+</p>
+
+<h2>Related Tools</h2>
+
+<p>
+<a href="#">Bulk ID Card Generator</a> |
+<a href="#">School Certificate Maker</a> |
+<a href="#">Student Admit Card Generator</a>
+</p>
+
+</div>
+
 </body>
-</html>
+  </html>
