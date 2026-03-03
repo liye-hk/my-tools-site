@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premium School ID Card Generator</title>
+<title>School ID Card Generator</title>
 
 <style>
-
 body{
 font-family:Arial;
 background:linear-gradient(135deg,#e0e7ff,#f5f3ff);
@@ -23,7 +22,7 @@ border-radius:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.1);
 }
 
-input,select{
+input{
 width:100%;
 padding:10px;
 margin:6px 0;
@@ -50,10 +49,8 @@ border-radius:18px;
 margin:30px auto;
 position:relative;
 overflow:hidden;
-backdrop-filter: blur(15px);
-background:rgba(255,255,255,0.25);
+background:white;
 box-shadow:0 10px 30px rgba(0,0,0,0.25);
-border:1px solid rgba(255,255,255,0.4);
 }
 
 /* TOP BAR */
@@ -66,13 +63,8 @@ font-weight:bold;
 background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
 }
 
-.school{
-font-size:18px;
-}
-
-.address{
-font-size:11px;
-}
+.school{font-size:18px;}
+.address{font-size:11px;}
 
 .title{
 margin:8px 0 0 0;
@@ -128,7 +120,11 @@ font-size:13px;
 }
 
 .details p{
-margin:2px 0;
+margin:3px 0;
+}
+
+.ph{
+margin-top:6px;   /* PH No थोड़ा नीचे */
 }
 
 /* SIGNATURE */
@@ -167,7 +163,7 @@ background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
 
 <div class="container">
 
-<h2>Premium School ID Card Generator</h2>
+<h2>School ID Card Generator</h2>
 
 <input id="school" placeholder="School Name">
 <input id="address" placeholder="School Address">
@@ -177,6 +173,7 @@ background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
 <input id="section" placeholder="Section">
 <input id="roll" placeholder="Roll No">
 <input id="phone" placeholder="Phone Number">
+<input id="session" placeholder="Session (2024-2025)">
 
 <label>School Logo</label>
 <input type="file" id="logoUpload">
@@ -215,7 +212,7 @@ background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
 <p><b>Class :</b> <span id="classPreview"></span></p>
 <p><b>Section :</b> <span id="sectionPreview"></span></p>
 <p><b>Roll No :</b> <span id="rollPreview"></span></p>
-<p><b>PH No :</b> <span id="phonePreview"></span></p>
+<p class="ph"><b>PH No :</b> <span id="phonePreview"></span></p>
 </div>
 
 <div class="signature">
@@ -224,7 +221,7 @@ Principal Signature
 </div>
 
 <div class="bottombar">
-SESSION 2024-2025
+<span id="sessionPreview">SESSION 2024-2025</span>
 </div>
 
 </div>
@@ -241,6 +238,7 @@ classPreview.innerText=class.value;
 sectionPreview.innerText=section.value;
 rollPreview.innerText=roll.value;
 phonePreview.innerText=phone.value;
+sessionPreview.innerText="SESSION " + session.value;
 
 let logo=logoUpload.files[0];
 let photo=photoUpload.files[0];
@@ -268,16 +266,21 @@ reader.readAsDataURL(sign);
 
 function downloadCard(){
 
-html2canvas(document.getElementById("card")).then(function(canvas){
+setTimeout(function(){
+
+html2canvas(document.getElementById("card"),{
+scale:2,
+useCORS:true
+}).then(function(canvas){
 
 let link=document.createElement("a");
 link.download="school-id-card.png";
 link.href=canvas.toDataURL("image/png");
 link.click();
 
-}).catch(function(error){
-alert("Download Error: "+error);
 });
+
+},300);
 
 }
 
