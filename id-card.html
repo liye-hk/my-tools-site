@@ -10,7 +10,7 @@
 <style>
 
 body{
-font-family: 'Segoe UI', sans-serif;
+font-family:Segoe UI;
 background:linear-gradient(135deg,#e0e7ff,#f1f5f9);
 text-align:center;
 padding:20px;
@@ -61,7 +61,7 @@ backdrop-filter:blur(20px);
 border:1px solid rgba(255,255,255,0.4);
 }
 
-/* Watermark Logo */
+/* Watermark */
 .watermark{
 position:absolute;
 top:50%;
@@ -82,8 +82,8 @@ padding:10px;
 color:white;
 font-weight:bold;
 text-align:center;
-z-index:2;
 position:relative;
+z-index:2;
 }
 
 .school{font-size:20px;}
@@ -236,17 +236,11 @@ const gradients=[
 "linear-gradient(45deg,#ff512f,#dd2476)",
 "linear-gradient(45deg,#11998e,#38ef7d)",
 "linear-gradient(45deg,#8e2de2,#4a00e0)",
-"linear-gradient(45deg,#f7971e,#ffd200)",
-"linear-gradient(45deg,#0f2027,#203a43,#2c5364)",
-"linear-gradient(45deg,#ff416c,#ff4b2b)",
-"linear-gradient(45deg,#56ab2f,#a8e063)",
-"linear-gradient(45deg,#614385,#516395)",
-"linear-gradient(45deg,#e65c00,#f9d423)"
+"linear-gradient(45deg,#f7971e,#ffd200)"
 ];
 
 const solids=[
-"#1e40af","#b91c1c","#047857","#7c3aed","#be185d",
-"#0f172a","#78350f","#065f46","#111827","#991b1b"
+"#1e40af","#b91c1c","#047857","#7c3aed","#be185d"
 ];
 
 function changeTemplate(){
@@ -301,12 +295,14 @@ reader.readAsDataURL(file);
 }
 
 function downloadCard(){
-html2canvas(document.getElementById("card"),{scale:2,useCORS:true})
-.then(canvas=>{
-let link=document.createElement("a");
-link.download="school-id-card.png";
-link.href=canvas.toDataURL();
-link.click();
+html2canvas(document.getElementById("card"),{
+scale:3,
+useCORS:true,
+backgroundColor:null
+}).then(function(canvas){
+let imageURL = canvas.toDataURL("image/png");
+let newWindow = window.open();
+newWindow.document.write("<img src='"+imageURL+"' style='width:100%'>");
 });
 }
 
