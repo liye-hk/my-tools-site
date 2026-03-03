@@ -8,9 +8,10 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
+
 body{
 font-family:Segoe UI;
-background:#f1f5f9;
+background:linear-gradient(135deg,#e0e7ff,#f1f5f9);
 text-align:center;
 padding:20px;
 }
@@ -21,10 +22,10 @@ margin:auto;
 background:white;
 padding:20px;
 border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
+box-shadow:0 15px 40px rgba(0,0,0,0.15);
 }
 
-input,select{
+input{
 width:100%;
 padding:10px;
 margin:6px 0;
@@ -40,16 +41,17 @@ background:#2563eb;
 color:white;
 border-radius:10px;
 cursor:pointer;
+font-weight:600;
 }
 
 #card{
 width:420px;
-height:250px;
+height:260px;
 border-radius:20px;
 margin:30px auto;
 position:relative;
 background:white;
-box-shadow:0 15px 40px rgba(0,0,0,0.3);
+box-shadow:0 20px 50px rgba(0,0,0,0.3);
 overflow:hidden;
 }
 
@@ -66,6 +68,7 @@ pointer-events:none;
 width:200px;
 }
 
+/* Top Bar */
 .topbar{
 background:#2563eb;
 color:white;
@@ -73,30 +76,61 @@ padding:10px;
 font-weight:bold;
 }
 
+.school-name{
+font-size:18px;
+}
+
+.school-address{
+font-size:12px;
+}
+
+/* Title Below Blue Bar */
+.title{
+text-align:center;
+font-weight:bold;
+font-size:18px;
+margin-top:8px;
+}
+
+/* Photo */
 .photo{
 position:absolute;
 left:25px;
-top:90px;
+top:105px;
 width:100px;
 height:115px;
 border:2px solid #ccc;
 border-radius:12px;
 overflow:hidden;
 }
-.photo img{width:100%;height:100%;object-fit:cover;}
+.photo img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
 
+/* Details */
 .details{
 position:absolute;
 left:150px;
-top:90px;
+top:105px;
 text-align:left;
 font-size:14px;
 }
 
+.details p{
+margin:4px 0;
+}
+
+.details strong{
+font-weight:bold;
+}
+
+/* Signature */
 .signature{
 position:absolute;
 right:15px;
-bottom:40px;
+bottom:45px;
 text-align:center;
 font-size:11px;
 }
@@ -106,6 +140,7 @@ height:30px;
 object-fit:contain;
 }
 
+/* Bottom Bar */
 .bottombar{
 position:absolute;
 bottom:0;
@@ -115,6 +150,7 @@ color:white;
 padding:6px;
 font-size:13px;
 }
+
 </style>
 </head>
 
@@ -155,20 +191,23 @@ font-size:13px;
 </div>
 
 <div class="topbar">
-<div id="schoolPreview">School Name</div>
-<div style="font-size:12px;" id="addressPreview">School Address</div>
-<div style="margin-top:5px;">IDENTITY CARD</div>
+<div class="school-name" id="schoolPreview">School Name</div>
+<div class="school-address" id="addressPreview">School Address</div>
 </div>
 
-<div class="photo"><img id="photoPreview"></div>
+<div class="title">IDENTITY CARD</div>
+
+<div class="photo">
+<img id="photoPreview">
+</div>
 
 <div class="details">
-<p><b>Name :</b> <span id="namePreview"></span></p>
-<p><b>S/O D/O :</b> <span id="fatherPreview"></span></p>
-<p><b>Class :</b> <span id="classPreview"></span></p>
-<p><b>Section :</b> <span id="sectionPreview"></span></p>
-<p><b>Roll No :</b> <span id="rollPreview"></span></p>
-<p><b>PH No :</b> <span id="phonePreview"></span></p>
+<p><strong>Name :</strong> <span id="namePreview"></span></p>
+<p><strong>S/O D/O :</strong> <span id="fatherPreview"></span></p>
+<p><strong>Class :</strong> <span id="classPreview"></span></p>
+<p><strong>Section :</strong> <span id="sectionPreview"></span></p>
+<p><strong>Roll No :</strong> <span id="rollPreview"></span></p>
+<p><strong>PH No :</strong> <span id="phonePreview"></span></p>
 </div>
 
 <div class="signature">
@@ -183,39 +222,50 @@ font-size:13px;
 
 <script>
 
+/* 15 Color Templates */
+const colors=[
+"#1e40af","#b91c1c","#047857","#7c3aed","#be185d",
+"#0f172a","#78350f","#065f46","#111827","#991b1b",
+"#0ea5e9","#f97316","#16a34a","#9333ea","#e11d48"
+];
+
 function preview(){
 
-document.getElementById("schoolPreview").innerText =
+document.getElementById("schoolPreview").innerText=
 document.getElementById("school").value;
 
-document.getElementById("addressPreview").innerText =
+document.getElementById("addressPreview").innerText=
 document.getElementById("address").value;
 
-document.getElementById("namePreview").innerText =
+document.getElementById("namePreview").innerText=
 document.getElementById("name").value;
 
-document.getElementById("fatherPreview").innerText =
+document.getElementById("fatherPreview").innerText=
 document.getElementById("father").value;
 
-document.getElementById("classPreview").innerText =
+document.getElementById("classPreview").innerText=
 document.getElementById("class").value;
 
-document.getElementById("sectionPreview").innerText =
+document.getElementById("sectionPreview").innerText=
 document.getElementById("section").value;
 
-document.getElementById("rollPreview").innerText =
+document.getElementById("rollPreview").innerText=
 document.getElementById("roll").value;
 
-document.getElementById("phonePreview").innerText =
+document.getElementById("phonePreview").innerText=
 document.getElementById("phone").value;
 
-document.getElementById("sessionPreview").innerText =
-"SESSION " + document.getElementById("session").value;
+document.getElementById("sessionPreview").innerText=
+"SESSION "+document.getElementById("session").value;
+
+/* Random Color Apply */
+let randomColor=colors[Math.floor(Math.random()*colors.length)];
+document.querySelector(".topbar").style.background=randomColor;
+document.querySelector(".bottombar").style.background=randomColor;
 
 loadImage("logoUpload","watermarkLogo");
 loadImage("photoUpload","photoPreview");
 loadImage("signUpload","signPreview");
-
 }
 
 function loadImage(inputId,imgId){
@@ -232,8 +282,8 @@ reader.readAsDataURL(file);
 function downloadCard(){
 html2canvas(document.getElementById("card"),{scale:3})
 .then(function(canvas){
-let img = canvas.toDataURL("image/png");
-let win = window.open();
+let img=canvas.toDataURL("image/png");
+let win=window.open();
 win.document.write("<img src='"+img+"' style='width:100%'>");
 });
 }
