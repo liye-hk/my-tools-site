@@ -2,117 +2,123 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Premium ID Card</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School ID Card Generator</title>
 
 <style>
-
-/* ================= BODY ================= */
 body{
-margin:0;
-padding:0;
-background:#f2f2f2;
-font-family:Arial, sans-serif;
-display:flex;
-flex-direction:column;
-align-items:center;
+font-family:Arial;
+background:#f3f4f6;
+text-align:center;
+padding:20px;
 }
 
-/* ================= FORM SECTION ================= */
-.form-section{
-width:350px;
-background:#fff;
-padding:15px;
+.container{
+max-width:420px;
+margin:auto;
+background:white;
+padding:20px;
 border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-margin-top:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
 }
 
-.form-section input{
+input,select{
 width:100%;
-padding:8px;
-margin:5px 0;
-border-radius:8px;
+padding:10px;
+margin:6px 0;
 border:1px solid #ccc;
+border-radius:8px;
 }
 
-.form-section button{
-background:#2f67d8;
-color:#fff;
+button{
+padding:10px 18px;
+margin:10px;
 border:none;
-padding:10px;
-margin-top:8px;
-width:48%;
+background:#2563eb;
+color:white;
 border-radius:8px;
 cursor:pointer;
 }
 
-.form-buttons{
-display:flex;
-justify-content:space-between;
-}
+/* CARD */
 
-/* ================= CARD ================= */
-.id-card{
+#card{
+width:400px;
+height:240px;
+border-radius:18px;
+margin:30px auto;
 position:relative;
-width:350px;
-background:#fff;
-border-radius:20px;
 overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,0.25);
-margin-top:20px;
-padding-bottom:15px;
+background:white;
+box-shadow:0 15px 35px rgba(0,0,0,0.3);
 }
 
-/* ================= WATERMARK ================= */
+/* PREMIUM GLASS MODE */
+.glass{
+background:rgba(255,255,255,0.15) !important;
+backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,0.5);
+}
+
+/* WATERMARK (LOGO) */
 .watermark{
 position:absolute;
 top:50%;
 left:50%;
-transform:translate(-50%,-50%) rotate(-25deg);
-font-size:45px;
-font-weight:900;
-letter-spacing:5px;
-color:rgba(0,0,0,0.05);
+transform:translate(-50%,-50%);
+opacity:0.08;
 pointer-events:none;
 }
 
-/* ================= TOP BAR ================= */
+.watermark img{
+width:180px;
+height:180px;
+object-fit:contain;
+}
+
+/* TOP BAR */
+
 .topbar{
-background:#8b5e3c;
-color:#fff;
+padding:8px 0;
 text-align:center;
-padding:15px;
-}
-
-.topbar h2{
-margin:0;
-font-size:20px;
-}
-
-.topbar p{
-margin:0;
-font-size:14px;
-}
-
-/* ================= TITLE ================= */
-.title{
-text-align:center;
-font-size:22px;
+color:white;
 font-weight:bold;
-margin:10px 0;
+background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
 }
 
-/* ================= PHOTO ================= */
+.school{font-size:20px;}
+.address{font-size:12px;}
+
+.title{
+position:relative;
+top:-8px;
+font-weight:bold;
+font-size:18px;
+margin:5px 0 0 0;
+}
+
+.logo{
+position:absolute;
+left:12px;
+top:8px;
+width:40px;
+height:40px;
+border-radius:50%;
+background:white;
+overflow:hidden;
+}
+
+.logo img{width:100%;height:100%;}
+
 .photo{
-width:110px;
-height:130px;
-border-radius:15px;
+position:absolute;
+left:25px;
+top:85px;
+width:100px;
+height:110px;
 border:2px solid #ccc;
 overflow:hidden;
-position:absolute;
-left:20px;
-top:150px;
-background:#eee;
+border-radius:10px;
 }
 
 .photo img{
@@ -121,174 +127,199 @@ height:100%;
 object-fit:cover;
 }
 
-/* ================= DETAILS ================= */
 .details{
-margin-left:150px;
-padding:10px 15px;
+position:absolute;
+left:145px;
+top:80px;
+text-align:left;
 font-size:14px;
-line-height:1.8;
 }
 
-/* ================= SIGNATURE ================= */
+.details p{margin:4px 0;}
+.ph{margin-top:6px;}
+
 .signature{
-text-align:right;
-padding:10px 15px;
-font-size:13px;
-}
-
-/* ================= BOTTOM BAR ================= */
-.bottombar{
-background:#8b5e3c;
-color:#fff;
+position:absolute;
+right:15px;
+bottom:38px;
 text-align:center;
-padding:8px;
-font-size:14px;
-margin-top:20px;
+font-size:11px;
 }
 
+.signature img{
+width:75px;
+height:28px;
+object-fit:contain;
+}
+
+.bottombar{
+position:absolute;
+bottom:0;
+width:100%;
+padding:6px 0;
+color:white;
+font-size:13px;
+text-align:center;
+background:linear-gradient(45deg,#6b4a3a,#8b5e3c);
+}
 </style>
 </head>
 
 <body>
 
-<!-- ================= FORM ================= -->
-<div class="form-section">
-<input type="text" id="school" placeholder="School Name">
-<input type="text" id="address" placeholder="School Address">
-<input type="text" id="name" placeholder="Student Name">
-<input type="text" id="father" placeholder="S/O D/O">
-<input type="text" id="class" placeholder="Class">
-<input type="text" id="section" placeholder="Section">
-<input type="text" id="roll" placeholder="Roll No">
-<input type="text" id="phone" placeholder="Phone No">
-<input type="file" id="photoInput">
+<div class="container">
 
-<div class="form-buttons">
-<button onclick="preview()">Preview</button>
-<button onclick="downloadCard()">Download</button>
+<h2>School ID Card Generator</h2>
+
+<select id="templateSelect" onchange="changeTemplate()">
+<option value="gradient">Gradient Templates</option>
+<option value="solid">Solid Color Templates</option>
+<option value="glass">Premium Glass Effect</option>
+</select>
+
+<input id="school" placeholder="School Name">
+<input id="address" placeholder="School Address">
+<input id="name" placeholder="Student Name">
+<input id="father" placeholder="Father Name">
+<input id="class" placeholder="Class">
+<input id="section" placeholder="Section">
+<input id="roll" placeholder="Roll No">
+<input id="phone" placeholder="Phone Number">
+<input id="session" placeholder="Session (2024-2025)">
+
+<label>School Logo</label>
+<input type="file" id="logoUpload">
+
+<label>Student Photo</label>
+<input type="file" id="photoUpload">
+
+<label>Principal Signature</label>
+<input type="file" id="signUpload">
+
+<button type="button" onclick="preview()">Preview</button>
+<button type="button" onclick="downloadCard()">Download</button>
+
 </div>
+
+<div id="card">
+
+<div class="watermark">
+<img id="watermarkLogo">
 </div>
 
-<!-- ================= ID CARD ================= -->
-<div class="id-card" id="card">
-
-<div class="watermark">PREMIUM</div>
-
-<div class="topbar">
-<h2 id="schoolDisplay">School Name</h2>
-<p id="addressDisplay">School Address</p>
+<div class="topbar" id="topbar">
+<div class="school" id="schoolPreview">School Name</div>
+<div class="address" id="addressPreview">School Address</div>
 </div>
 
 <div class="title">IDENTITY CARD</div>
 
-<div class="photo">
-<img id="photoDisplay">
-</div>
+<div class="logo"><img id="logoPreview"></div>
+<div class="photo"><img id="photoPreview"></div>
 
 <div class="details">
-<strong>Name :</strong> <span id="nameDisplay"></span><br>
-<strong>S/O D/O :</strong> <span id="fatherDisplay"></span><br>
-<strong>Class :</strong> <span id="classDisplay"></span><br>
-<strong>Section :</strong> <span id="sectionDisplay"></span><br>
-<strong>Roll No :</strong> <span id="rollDisplay"></span><br>
-<strong>PH No :</strong> <span id="phoneDisplay"></span>
+<p><b>Name :</b> <span id="namePreview"></span></p>
+<p><b>S/O D/O :</b> <span id="fatherPreview"></span></p>
+<p><b>Class :</b> <span id="classPreview"></span></p>
+<p><b>Section :</b> <span id="sectionPreview"></span></p>
+<p><b>Roll No :</b> <span id="rollPreview"></span></p>
+<p class="ph"><b>PH No :</b> <span id="phonePreview"></span></p>
 </div>
 
 <div class="signature">
-Principal Signature
+<img id="signPreview"><br>Principal Signature
 </div>
 
-<div class="bottombar">
-SESSION 2024-2025
+<div class="bottombar" id="bottombar">
+<span id="sessionPreview">SESSION 2024-2025</span>
 </div>
 
 </div>
 
 <script>
 
-function preview(){
-document.getElementById("schoolDisplay").innerText = school.value;
-document.getElementById("addressDisplay").innerText = address.value;
-document.getElementById("nameDisplay").innerText = name.value;
-document.getElementById("fatherDisplay").innerText = father.value;
-document.getElementById("classDisplay").innerText = class.value;
-document.getElementById("sectionDisplay").innerText = section.value;
-document.getElementById("rollDisplay").innerText = roll.value;
-document.getElementById("phoneDisplay").innerText = phone.value;
+const gradients=[
+"linear-gradient(45deg,#1e3c72,#2a5298)",
+"linear-gradient(45deg,#ff512f,#dd2476)",
+"linear-gradient(45deg,#11998e,#38ef7d)",
+"linear-gradient(45deg,#8e2de2,#4a00e0)",
+"linear-gradient(45deg,#f7971e,#ffd200)"
+];
 
-const file = photoInput.files[0];
-if(file){
-const reader = new FileReader();
-reader.onload = function(e){
-photoDisplay.src = e.target.result;
+const solids=[
+"#1e40af","#b91c1c","#047857","#7c3aed","#be185d",
+"#0f172a","#78350f","#065f46","#111827","#991b1b",
+"#0e7490","#4c1d95","#374151","#92400e","#134e4a",
+"#7f1d1d","#1f2937","#14532d","#831843","#312e81"
+];
+
+function changeTemplate(){
+let value=document.getElementById("templateSelect").value;
+let card=document.getElementById("card");
+let topbar=document.getElementById("topbar");
+let bottombar=document.getElementById("bottombar");
+
+card.classList.remove("glass");
+
+if(value==="gradient"){
+let random=gradients[Math.floor(Math.random()*gradients.length)];
+topbar.style.background=random;
+bottombar.style.background=random;
+card.style.background="white";
 }
+else if(value==="solid"){
+let random=solids[Math.floor(Math.random()*solids.length)];
+topbar.style.background=random;
+bottombar.style.background=random;
+card.style.background="white";
+}
+else if(value==="glass"){
+card.classList.add("glass");
+topbar.style.background="rgba(0,0,0,0.6)";
+bottombar.style.background="rgba(0,0,0,0.6)";
+}
+}
+
+function preview(){
+schoolPreview.innerText=school.value;
+addressPreview.innerText=address.value;
+namePreview.innerText=name.value;
+fatherPreview.innerText=father.value;
+classPreview.innerText=class.value;
+sectionPreview.innerText=section.value;
+rollPreview.innerText=roll.value;
+phonePreview.innerText=phone.value;
+sessionPreview.innerText="SESSION "+session.value;
+
+previewImage("logoUpload","logoPreview");
+previewImage("logoUpload","watermarkLogo");  // watermark logo
+previewImage("photoUpload","photoPreview");
+previewImage("signUpload","signPreview");
+}
+
+function previewImage(inputId,imgId){
+let file=document.getElementById(inputId).files[0];
+if(file){
+let reader=new FileReader();
+reader.onload=e=>document.getElementById(imgId).src=e.target.result;
 reader.readAsDataURL(file);
 }
 }
 
 function downloadCard(){
-html2canvas(document.getElementById("card")).then(canvas=>{
+html2canvas(document.getElementById("card"),{scale:2}).then(canvas=>{
 let link=document.createElement("a");
-link.download="ID-Card.png";
-link.href=canvas.toDataURL();
+link.href=canvas.toDataURL("image/png");
+link.download="school-id-card.png";
+document.body.appendChild(link);
 link.click();
+document.body.removeChild(link);
 });
 }
 
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<!-- SEO Section Start -->
-<section style="max-width:1000px;margin:60px auto;padding:40px;background:#ffffff;border-radius:12px;box-shadow:0 8px 25px rgba(0,0,0,0.08);font-family:Arial, sans-serif;line-height:1.8;color:#333;">
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
-<h2>About School ID Card Generator</h2>
-<p>
-The <strong>School ID Card Generator</strong> is a free and easy-to-use online tool designed to help schools create professional student identity cards instantly. This tool eliminates the need for complex design software and allows users to generate clean, printable ID cards directly from their browser. Schools can quickly enter student details, upload a photo, add the school logo, and include the principal’s signature to create a ready-to-download ID card.
-</p>
-
-<p>
-Whether you are running a small private school, coaching institute, or educational academy, this tool provides a simple solution for designing PVC-style student ID cards. The system works smoothly on both desktop and mobile devices, making it accessible anytime and anywhere.
-</p>
-
-<h2>How to Use This Tool</h2>
-<p>
-Using this ID card generator is very simple. First, enter the school name and address. Then fill in the student details such as name, father’s name, class, section, roll number, and phone number. Upload the school logo, student photo, and principal signature. Click on the Preview button to see the final ID card layout. If everything looks correct, download the card image and use it for printing or digital sharing.
-</p>
-
-<h2>Features of the Tool</h2>
-<ul>
-<li>Instant student ID card generation</li>
-<li>Upload student photo and school logo</li>
-<li>Add principal signature support</li>
-<li>Clean and professional PVC card layout</li>
-<li>Mobile-friendly and responsive design</li>
-<li>Fast preview and easy download option</li>
-<li>No design skills required</li>
-</ul>
-
-<h2>Frequently Asked Questions</h2>
-
-<p><strong>Is this School ID Card Generator free?</strong><br>
-Yes, this tool is completely free and does not require any subscription.</p>
-
-<p><strong>Can I use it on mobile?</strong><br>
-Yes, the tool is fully responsive and works on smartphones and tablets.</p>
-
-<p><strong>Do I need to install any software?</strong><br>
-No installation is required. Everything works directly inside your web browser.</p>
-
-<p><strong>Can I print the generated ID card?</strong><br>
-Yes, the downloaded image can be printed on PVC cards or standard card paper.</p>
-
-<h2>Related Tools</h2>
-<ul>
-<li><a href="/student-certificate-generator">Student Certificate Generator</a></li>
-<li><a href="/school-fee-receipt-generator">School Fee Receipt Generator</a></li>
-<li><a href="/marksheet-generator">Student Marksheet Generator</a></li>
-<li><a href="/leaving-certificate-generator">School Leaving Certificate Generator</a></li>
-</ul>
-
-</section>
-<!-- SEO Section End -->
 </body>
 </html>
