@@ -188,7 +188,6 @@ Yes, the Advanced Age Calculator 2026 is fully responsive and works on smartphon
 Manual calculations can lead to errors, especially when leap years are involved. An online tool provides faster and more accurate results.</p>
 
 </div>
-
 <script>
 
 let interval;
@@ -202,34 +201,34 @@ alert("Please select your date of birth");
 return;
 }
 
-let dob = new Date(dobValue + "T00:00:00");
-
+let dob = new Date(dobValue);
 clearInterval(interval);
 
 function updateAge(){
 
 let now = new Date();
-let diff = now - dob;
 
-let totalSeconds = Math.floor(diff / 1000);
+let years = now.getFullYear() - dob.getFullYear();
+let months = now.getMonth() - dob.getMonth();
+let days = now.getDate() - dob.getDate();
 
-let years = Math.floor(totalSeconds / (365.25*24*60*60));
-totalSeconds -= years * 365.25*24*60*60;
+if(days < 0){
+months--;
+let prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+days += prevMonth.getDate();
+}
 
-let months = Math.floor(totalSeconds / (30*24*60*60));
-totalSeconds -= months * 30*24*60*60;
+if(months < 0){
+years--;
+months += 12;
+}
 
-let days = Math.floor(totalSeconds / (24*60*60));
-totalSeconds -= days * 24*60*60;
-
-let hours = Math.floor(totalSeconds / (60*60));
-totalSeconds -= hours * 60*60;
-
-let minutes = Math.floor(totalSeconds / 60);
-let seconds = totalSeconds % 60;
+let hours = now.getHours();
+let minutes = now.getMinutes();
+let seconds = now.getSeconds();
 
 
-/* 🎂 Birthday Countdown */
+/* 🎂 Next Birthday */
 
 let nextBirthday = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());
 
@@ -267,7 +266,7 @@ interval = setInterval(updateAge,1000);
 
 }
 
-</script>
+  </script>
 
 </body>
 </html>
