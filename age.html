@@ -227,38 +227,36 @@ let hours = now.getHours();
 let minutes = now.getMinutes();
 let seconds = now.getSeconds();
 
-
-/* 🎂 Next Birthday */
+/* 🎂 Next Birthday with Months */
 
 let nextBirthday = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());
 
-if(nextBirthday < now){
-nextBirthday.setFullYear(now.getFullYear() + 1);
+if (nextBirthday < now) {
+  nextBirthday.setFullYear(now.getFullYear() + 1);
+}
+
+let tempDate = new Date(now);
+
+let bYears = nextBirthday.getFullYear() - tempDate.getFullYear();
+let bMonths = nextBirthday.getMonth() - tempDate.getMonth();
+let bDays = nextBirthday.getDate() - tempDate.getDate();
+
+if (bDays < 0) {
+  bMonths--;
+  let prevMonth = new Date(nextBirthday.getFullYear(), nextBirthday.getMonth(), 0);
+  bDays += prevMonth.getDate();
+}
+
+if (bMonths < 0) {
+  bYears--;
+  bMonths += 12;
 }
 
 let birthdayDiff = nextBirthday - now;
 
-let bDays = Math.floor(birthdayDiff / (1000*60*60*24));
 let bHours = Math.floor((birthdayDiff / (1000*60*60)) % 24);
 let bMinutes = Math.floor((birthdayDiff / (1000*60)) % 60);
 let bSeconds = Math.floor((birthdayDiff / 1000) % 60);
-
-
-document.getElementById("result").innerHTML =
-"🎉 <b>Your Exact Age:</b><br><br>" +
-years + " Years<br>" +
-months + " Months<br>" +
-days + " Days<br>" +
-hours + " Hours<br>" +
-minutes + " Minutes<br>" +
-seconds + " Seconds<br><br>" +
-
-"🎂 <b>Time Left Until Next Birthday:</b><br><br>" +
-bDays + " Days<br>" +
-bHours + " Hours<br>" +
-bMinutes + " Minutes<br>" +
-bSeconds + " Seconds";
-
 }
 
 updateAge();
