@@ -162,29 +162,23 @@ setTimeout(addLogo,200)
 saveHistory(text)
 
 }
-
 function downloadQR(){
 
-let img=document.querySelector("#qrcode img")
-let canvas=document.querySelector("#qrcode canvas")
+let canvas = document.querySelector("#qrcode canvas");
 
-if(img){
-let link=document.createElement("a")
-link.href=img.src
-link.download="qrcode.png"
-link.click()
-return
+if(!canvas){
+alert("Generate QR Code first");
+return;
 }
 
-if(canvas){
-let link=document.createElement("a")
-link.href=canvas.toDataURL("image/png")
-link.download="qrcode.png"
-link.click()
-return
-}
+let image = canvas.toDataURL("image/png");
 
-alert("Generate QR Code first")
+let link = document.createElement("a");
+link.href = image;
+link.download = "qrcode.png";
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
 
 }
 
