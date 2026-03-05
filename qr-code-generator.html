@@ -5,17 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>QR Code Generator | Free Online QR Code Maker</title>
+<title>QR Code Generator 2026 – Free QR Code Maker Online</title>
 
-<meta name="description" content="Free online QR Code Generator. Create QR codes instantly for links, text, email, phone and download high quality QR codes.">
-
-<meta name="keywords" content="qr code generator, free qr code generator, create qr code online, qr code maker">
-
-<meta name="author" content="Shayan Smart Tools">
-
-<meta name="robots" content="index, follow">
-
-<link rel="canonical" href="https://shayandigitalservice.github.io/my-tools-site/qr-code-generator.html">
+<meta name="description" content="Free online QR Code Generator. Create QR codes for links, WhatsApp, WiFi, email, phone and download high quality QR codes instantly.">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -33,8 +25,6 @@ max-width:900px;
 margin:auto;
 }
 
-/* TOOL CARD */
-
 .tool-card{
 background:white;
 padding:25px;
@@ -45,19 +35,12 @@ text-align:center;
 box-shadow:0 8px 25px rgba(0,0,0,0.1);
 }
 
-h1{
-font-size:26px;
-text-align:center;
-margin-bottom:20px;
-}
-
-input{
+input,select{
 width:100%;
 padding:12px;
 border-radius:10px;
 border:1px solid #ccc;
 margin-bottom:10px;
-font-size:14px;
 }
 
 button{
@@ -78,44 +61,14 @@ background:#1e40af;
 
 #qrcode{
 margin-top:20px;
-}
-
-/* CONTENT SECTION */
-
-.content{
-background:white;
-padding:30px;
-margin-top:40px;
-border-radius:14px;
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
-}
-
-.content h2{
-margin-top:25px;
-}
-
-.content p{
-line-height:1.7;
-color:#444;
-}
-
-.features li{
-margin-bottom:8px;
-}
-
-.tools a{
+position:relative;
 display:inline-block;
-margin:6px;
-padding:8px 14px;
-background:#2563eb;
-color:white;
-text-decoration:none;
-border-radius:8px;
-font-size:14px;
 }
 
-.tools a:hover{
-background:#1e40af;
+.history{
+margin-top:20px;
+font-size:13px;
+color:#555;
 }
 
 </style>
@@ -126,11 +79,26 @@ background:#1e40af;
 
 <div class="container">
 
-<h1>QR Code Generator</h1>
+<h1 style="text-align:center;">QR Code Generator</h1>
 
 <div class="tool-card">
 
-<input type="text" id="text" placeholder="Enter URL or Text">
+<select id="qrType">
+<option value="text">Text / URL</option>
+<option value="whatsapp">WhatsApp</option>
+<option value="wifi">WiFi</option>
+<option value="email">Email</option>
+<option value="phone">Phone</option>
+<option value="social">Social Media</option>
+</select>
+
+<input type="text" id="text" placeholder="Enter text or URL">
+
+<input type="color" id="qrColor" value="#000000">
+
+<input type="range" id="qrSize" min="150" max="350" value="200">
+
+<input type="file" id="logoUpload" accept="image/*">
 
 <button onclick="generateQR()">Generate QR Code</button>
 
@@ -138,74 +106,9 @@ background:#1e40af;
 
 <button onclick="downloadQR()">Download QR Code</button>
 
-</div>
-
-<!-- SEO CONTENT -->
-
-<div class="content">
-
-<h2>About QR Code Generator</h2>
-
-<p>
-Our free QR Code Generator helps you create QR codes instantly for links, text, phone numbers, emails, and more. QR codes are widely used for sharing information quickly by scanning with a smartphone camera. This tool allows users to generate high-quality QR codes online without installing any software.
-</p>
-
-<p>
-Simply enter your text or website URL, click the generate button, and your QR code will appear instantly. You can also download the QR code as an image and use it on websites, posters, business cards, or marketing materials.
-</p>
-
-<h2>How to Use This Tool</h2>
-
-<p>
-Using this QR Code Generator is very simple and requires only a few steps:
-</p>
-
-<ul>
-<li>Enter a URL, text, phone number, or any information.</li>
-<li>Click the <b>Generate QR Code</b> button.</li>
-<li>Your QR code will appear instantly.</li>
-<li>Click <b>Download QR Code</b> to save the image.</li>
-</ul>
-
-<h2>Features</h2>
-
-<ul class="features">
-<li>Instant QR code generation</li>
-<li>Completely free to use</li>
-<li>Download high-quality QR code images</li>
-<li>Works on mobile and desktop devices</li>
-<li>No signup or registration required</li>
-</ul>
-
-<h2>Frequently Asked Questions</h2>
-
-<p><b>What is a QR Code?</b><br>
-A QR code is a type of barcode that stores information and can be scanned using a smartphone camera.</p>
-
-<p><b>Is this QR code generator free?</b><br>
-Yes, this tool is completely free and can be used unlimited times.</p>
-
-<p><b>Can I use the QR code for business?</b><br>
-Yes, you can use generated QR codes for websites, marketing materials, business cards, and more.</p>
-
-<h2>Related Tools</h2>
-
-<div class="tools">
-
-<a href="gst.html">GST Calculator</a>
-<a href="profit-loss.html">Profit Loss Calculator</a>
-<a href="simple-interest.html">Simple Interest Calculator</a>
-<a href="fd-calculator.html">FD Calculator</a>
-<a href="rd-calculator.html">RD Calculator</a>
-<a href="ppf-calculator.html">PPF Calculator</a>
-<a href="word-counter.html">Word Counter</a>
-<a href="image-to-pdf.html">Image to PDF Converter</a>
-<a href="image-converter.html">Image Converter</a>
-<a href="image-crop.html">Image Crop Tool</a>
-<a href="pdf-merge.html">PDF Merge Tool</a>
-<a href="background-remover.html">Photo Background Remover</a>
-<a href="index.html">Back to Home</a>
-
+<div class="history">
+<b>QR History:</b>
+<ul id="historyList"></ul>
 </div>
 
 </div>
@@ -219,19 +122,44 @@ let qr
 function generateQR(){
 
 let text=document.getElementById("text").value
+let type=document.getElementById("qrType").value
+let color=document.getElementById("qrColor").value
+let size=document.getElementById("qrSize").value
 
 if(text===""){
 alert("Enter text or URL")
 return
 }
 
+if(type==="whatsapp"){
+text="https://wa.me/"+text
+}
+
+if(type==="email"){
+text="mailto:"+text
+}
+
+if(type==="phone"){
+text="tel:"+text
+}
+
+if(type==="wifi"){
+text="WIFI:T:WPA;S:"+text+";;"
+}
+
 document.getElementById("qrcode").innerHTML=""
 
 qr=new QRCode(document.getElementById("qrcode"),{
 text:text,
-width:200,
-height:200
+width:size,
+height:size,
+colorDark:color,
+colorLight:"#ffffff"
 })
+
+setTimeout(addLogo,200)
+
+saveHistory(text)
 
 }
 
@@ -253,7 +181,49 @@ link.click()
 
 }
 
+function addLogo(){
+
+let logoInput=document.getElementById("logoUpload")
+
+if(logoInput.files.length==0) return
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+let logo=document.createElement("img")
+
+logo.src=e.target.result
+
+logo.style.width="50px"
+logo.style.height="50px"
+logo.style.position="absolute"
+logo.style.left="50%"
+logo.style.top="50%"
+logo.style.transform="translate(-50%,-50%)"
+logo.style.borderRadius="8px"
+
+document.getElementById("qrcode").appendChild(logo)
+
+}
+
+reader.readAsDataURL(logoInput.files[0])
+
+}
+
+function saveHistory(text){
+
+let list=document.getElementById("historyList")
+
+let li=document.createElement("li")
+
+li.innerText=text
+
+list.prepend(li)
+
+}
+
 </script>
 
 </body>
-  </html>
+</html>
