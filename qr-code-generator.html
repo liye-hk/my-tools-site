@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>QR Code Generator</title>
+<title>Advanced QR Code Generator</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -10,44 +10,58 @@
 
 body{
 font-family:Arial;
-background:#f4f4f4;
+background:#f4f6fb;
 text-align:center;
 padding:30px;
 }
 
 .container{
 background:white;
-padding:20px;
-border-radius:10px;
-max-width:500px;
+padding:25px;
+border-radius:12px;
+max-width:520px;
 margin:auto;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 input,select{
 width:90%;
 padding:10px;
-margin:5px;
+margin:6px;
 border:1px solid #ccc;
-border-radius:5px;
+border-radius:6px;
 }
 
 button{
 padding:10px 20px;
-margin:10px;
+margin:8px;
 border:none;
-background:#007bff;
+background:#2563eb;
 color:white;
-border-radius:5px;
+border-radius:6px;
 cursor:pointer;
 }
 
 button:hover{
-background:#0056b3;
+background:#1d4ed8;
 }
 
 #qrcode{
 margin-top:20px;
+position:relative;
+display:inline-block;
+}
+
+.frame{
+padding:20px;
+background:white;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.frame p{
+font-weight:bold;
+margin-top:10px;
 }
 
 .history{
@@ -59,7 +73,7 @@ text-align:left;
 background:#eee;
 padding:5px;
 margin:3px;
-border-radius:3px;
+border-radius:4px;
 }
 
 </style>
@@ -69,7 +83,7 @@ border-radius:3px;
 
 <div class="container">
 
-<h2>QR Code Generator</h2>
+<h2>Advanced QR Code Generator</h2>
 
 <select id="type">
 <option value="text">Text / URL</option>
@@ -77,12 +91,15 @@ border-radius:3px;
 <option value="wifi">WiFi</option>
 <option value="email">Email</option>
 <option value="phone">Phone</option>
-<option value="social">Social Media</option>
+<option value="instagram">Instagram</option>
+<option value="youtube">YouTube</option>
+<option value="upi">UPI Payment</option>
 </select>
 
 <input id="data" placeholder="Enter data">
 
-<input type="color" id="color" value="#000000">
+<input type="color" id="color1" value="#000000">
+<input type="color" id="color2" value="#2563eb">
 
 <label>Size</label>
 <input type="range" id="size" min="150" max="400" value="250">
@@ -94,7 +111,13 @@ border-radius:3px;
 <button onclick="generateQR()">Generate QR</button>
 <button onclick="downloadQR()">Download QR</button>
 
+<div class="frame">
+
 <div id="qrcode"></div>
+
+<p>SCAN ME</p>
+
+</div>
 
 <div class="history">
 <h3>QR History</h3>
@@ -111,7 +134,7 @@ function generateQR(){
 
 let type=document.getElementById("type").value
 let data=document.getElementById("data").value
-let color=document.getElementById("color").value
+let color=document.getElementById("color1").value
 let size=document.getElementById("size").value
 
 let finalData=data
@@ -132,8 +155,16 @@ if(type=="wifi"){
 finalData="WIFI:T:WPA;S:"+data+";;"
 }
 
-if(type=="social"){
-finalData=data
+if(type=="instagram"){
+finalData="https://instagram.com/"+data
+}
+
+if(type=="youtube"){
+finalData="https://youtube.com/"+data
+}
+
+if(type=="upi"){
+finalData="upi://pay?pa="+data
 }
 
 document.getElementById("qrcode").innerHTML=""
@@ -149,7 +180,7 @@ correctLevel:QRCode.CorrectLevel.H
 
 saveHistory(finalData)
 
-setTimeout(addLogo,500)
+setTimeout(addLogo,400)
 
 }
 
@@ -162,14 +193,13 @@ if(logoInput.files.length==0) return
 let img=document.createElement("img")
 img.src=URL.createObjectURL(logoInput.files[0])
 
-img.style.width="50px"
+img.style.width="60px"
 img.style.position="absolute"
 img.style.left="50%"
 img.style.top="50%"
 img.style.transform="translate(-50%,-50%)"
 
 let qrDiv=document.getElementById("qrcode")
-qrDiv.style.position="relative"
 
 qrDiv.appendChild(img)
 
@@ -177,19 +207,23 @@ qrDiv.appendChild(img)
 
 function downloadQR(){
 
-let canvas=document.querySelector("#qrcode canvas")
+let qrCanvas=document.querySelector("#qrcode canvas")
 
-if(!canvas){
+if(!qrCanvas){
 alert("Generate QR first")
 return
 }
 
+let frame=document.querySelector(".frame")
+
+html2canvas(frame).then(canvas=>{
+
 let link=document.createElement("a")
-
-link.href=canvas.toDataURL("image/png")
 link.download="qr-code.png"
-
+link.href=canvas.toDataURL()
 link.click()
+
+})
 
 }
 
@@ -228,6 +262,8 @@ div.appendChild(d)
 showHistory()
 
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 </body>
 </html>
