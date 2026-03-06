@@ -1,24 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <title>India Holiday List 2026</title>
 
 <style>
 
 body{
 font-family:Arial;
-background:#f4f6fb;
+background:#f4f4f4;
 padding:20px;
 }
 
 .container{
-max-width:900px;
-margin:auto;
 background:white;
-padding:25px;
+padding:20px;
 border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+max-width:700px;
+margin:auto;
 }
 
 h1{
@@ -45,7 +43,6 @@ border-bottom:1px solid #eee;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -54,19 +51,17 @@ border-bottom:1px solid #eee;
 
 <h1>India Holiday List 2026</h1>
 
-<input type="text" id="searchHoliday" placeholder="Search Holiday...">
+<input type="text" id="search" placeholder="Search Holiday...">
 
-<h2>Indian Government Major Holidays 2026</h2>
+<h3>Indian Government Major Holidays 2026</h3>
 
-<ul id="nationalHolidayList"></ul>
+<ul id="nationalList"></ul>
 
-<h2>Select State</h2>
+<h3>Select State</h3>
 
 <select id="stateSelect">
-
 <option value="">Select State</option>
-
-option>Andhra Pradesh</option>
+<option>Andhra Pradesh</option>
 <option>Arunachal Pradesh</option>
 <option>Assam</option>
 <option>Bihar</option>
@@ -103,19 +98,24 @@ option>Andhra Pradesh</option>
 <option>Puducherry</option>
 <option>Ladakh</option>
 </select>
+
 <ul id="stateHolidayList"></ul>
 
 </div>
 
 <script>
 
-function getDayName(date){
-const days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-return days[new Date(date).getDay()];
+function getDay(dateString){
+
+const days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+
+let d=new Date(dateString)
+
+return days[d.getDay()]
+
 }
 
-
-const national2026=[
+const national=[
 
 {date:"2026-01-26",name:"Republic Day"},
 {date:"2026-03-14",name:"Holi"},
@@ -129,94 +129,101 @@ const national2026=[
 
 ]
 
-
-const nationalList=document.getElementById("nationalHolidayList");
-
-national2026.forEach(h=>{
-
-let li=document.createElement("li")
-
-li.innerHTML=`${h.date} - ${getDayName(h.date)} - ${h.name}`
-
-nationalList.appendChild(li)
-
-})
-
-
 const states={
 
-AndhraPradesh:[
-
-{date:"2026-01-14",name:"Makara Sankranti"},
-{date:"2026-03-30",name:"Ugadi"},
-{date:"2026-08-28",name:"Janmashtami"}
-
-],
-
-Gujarat:[
-
+"Gujarat":[
 {date:"2026-01-14",name:"Uttarayan"},
-{date:"2026-08-19",name:"Janmashtami"}
-
+{date:"2026-08-19",name:"Janmashtami"},
+{date:"2026-10-24",name:"Diwali"}
 ],
 
-Maharashtra:[
-
+"Maharashtra":[
+{date:"2026-02-19",name:"Shivaji Jayanti"},
 {date:"2026-04-14",name:"Ambedkar Jayanti"},
-{date:"2026-09-17",name:"Ganesh Chaturthi"}
-
+{date:"2026-10-24",name:"Diwali"}
 ],
 
-TamilNadu:[
+"Rajasthan":[
+{date:"2026-03-14",name:"Holi"},
+{date:"2026-04-03",name:"Good Friday"},
+{date:"2026-10-24",name:"Diwali"}
+],
 
+"Uttar Pradesh":[
+{date:"2026-03-30",name:"Ram Navami"},
+{date:"2026-07-29",name:"Muharram"},
+{date:"2026-10-24",name:"Diwali"}
+],
+
+"Tamil Nadu":[
 {date:"2026-01-15",name:"Pongal"},
-{date:"2026-04-14",name:"Tamil New Year"}
-
+{date:"2026-04-14",name:"Tamil New Year"},
+{date:"2026-10-24",name:"Diwali"}
 ],
 
-Karnataka:[
+"Andhra Pradesh":[
+{date:"2026-01-14",name:"Sankranti"},
+{date:"2026-03-30",name:"Ugadi"},
+{date:"2026-10-24",name:"Diwali"}
+],
 
-{date:"2026-11-01",name:"Karnataka Rajyotsava"},
-{date:"2026-08-15",name:"Independence Day"}
+"Karnataka":[
+{date:"2026-01-14",name:"Makara Sankranti"},
+{date:"2026-04-14",name:"Ugadi"},
+{date:"2026-10-24",name:"Diwali"}
+],
 
+"West Bengal":[
+{date:"2026-03-14",name:"Dol Purnima"},
+{date:"2026-10-20",name:"Durga Puja"},
+{date:"2026-10-24",name:"Diwali"}
 ]
 
 }
 
+function showNational(){
+
+let ul=document.getElementById("nationalList")
+
+national.forEach(h=>{
+
+let day=getDay(h.date)
+
+let li=document.createElement("li")
+
+li.textContent=`${h.date} - ${day} - ${h.name}`
+
+ul.appendChild(li)
+
+})
+
+}
+
+showNational()
 
 document.getElementById("stateSelect").addEventListener("change",function(){
 
 let state=this.value
-let list=document.getElementById("stateHolidayList")
 
-list.innerHTML=""
+let ul=document.getElementById("stateHolidayList")
 
-if(!states[state]) return
+ul.innerHTML=""
+
+if(states[state]){
 
 states[state].forEach(h=>{
 
+let day=getDay(h.date)
+
 let li=document.createElement("li")
 
-li.innerHTML=`${h.date} - ${getDayName(h.date)} - ${h.name}`
+li.textContent=`${h.date} - ${day} - ${h.name}`
 
-list.appendChild(li)
-
-})
+ul.appendChild(li)
 
 })
 
-
-document.getElementById("searchHoliday").addEventListener("keyup",function(){
-
-let value=this.value.toLowerCase()
-
-let items=document.querySelectorAll("li")
-
-items.forEach(i=>{
-
-i.style.display=i.textContent.toLowerCase().includes(value)?"block":"none"
-
-})
+}
 
 })
 
