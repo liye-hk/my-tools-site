@@ -145,8 +145,6 @@ resultHTML+=`
 
 }
 
-document.getElementById("result").innerHTML=resultHTML;
-
 let hashtags="#"+topic+" #instagram #instagood #love #photooftheday #follow #trending #viral";
 
 document.getElementById("hashtags").innerHTML=`
@@ -155,7 +153,8 @@ document.getElementById("hashtags").innerHTML=`
 <span>${hashtags}</span>
 <button class="copy-btn" onclick="copyText('${hashtags}')">Copy</button>
 </div>
-`;.getElementById("hashtags").innerHTML="<b>Auto Hashtags:</b><br>"+hashtags;
+`;
+
 
 }
 
