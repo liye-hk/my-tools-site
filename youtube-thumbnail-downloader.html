@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>YouTube Thumbnail Downloader – Download HD Thumbnails Free</title>
+
+<meta name="description" content="Free YouTube Thumbnail Downloader tool. Download YouTube video thumbnails in HD, SD, High Quality and Medium Quality instantly.">
+
+<meta name="keywords" content="youtube thumbnail downloader, download youtube thumbnail, youtube thumbnail download hd, youtube thumbnail grabber">
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f6fb;
+margin:0;
+padding:0;
+text-align:center;
+}
+
+.container{
+max-width:600px;
+margin:50px auto;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+h1{
+margin-bottom:10px;
+}
+
+input{
+width:90%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:6px;
+font-size:16px;
+}
+
+button{
+margin-top:15px;
+padding:12px 25px;
+border:none;
+background:#ff0000;
+color:white;
+font-size:16px;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#cc0000;
+}
+
+.thumbnail{
+margin-top:25px;
+}
+
+.thumbnail img{
+width:100%;
+border-radius:8px;
+}
+
+.download{
+display:inline-block;
+margin:8px;
+padding:10px 18px;
+background:#007bff;
+color:white;
+text-decoration:none;
+border-radius:5px;
+}
+
+.download:hover{
+background:#0056b3;
+}
+
+.disclaimer{
+margin-top:30px;
+font-size:13px;
+color:gray;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>YouTube Thumbnail Downloader</h1>
+
+<p>Paste YouTube video link and download thumbnail instantly.</p>
+
+<input type="text" id="youtubeUrl" placeholder="Paste YouTube Video URL Here">
+
+<br>
+
+<button onclick="getThumbnail()">Get Thumbnail</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+function getThumbnail(){
+
+var url=document.getElementById("youtubeUrl").value;
+
+var videoId="";
+
+if(url.includes("youtube.com")){
+videoId=url.split("v=")[1].split("&")[0];
+}
+
+else if(url.includes("youtu.be")){
+videoId=url.split("/").pop();
+}
+
+if(videoId==""){
+alert("Invalid YouTube URL");
+return;
+}
+
+var html = `
+<div class="thumbnail">
+
+<h3>HD Thumbnail</h3>
+<img src="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg">
+<br>
+<a class="download" href="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg" download>Download HD</a>
+
+<h3>High Quality</h3>
+<img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg">
+<br>
+<a class="download" href="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" download>Download HQ</a>
+
+<h3>Medium Quality</h3>
+<img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg">
+<br>
+<a class="download" href="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" download>Download MQ</a>
+
+<h3>Standard Quality</h3>
+<img src="https://img.youtube.com/vi/${videoId}/sddefault.jpg">
+<br>
+<a class="download" href="https://img.youtube.com/vi/${videoId}/sddefault.jpg" download>Download SD</a>
+
+</div>
+`;
+
+document.getElementById("result").innerHTML=html;
+
+}
+
+</script>
+
+<div class="disclaimer">
+
+<p>
+Disclaimer: This tool is for educational and personal use only. 
+All YouTube thumbnails belong to their respective owners. 
+We do not host any videos or thumbnails.
+</p>
+
+</div>
+
+</body>
+</html>
