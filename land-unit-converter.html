@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Land Unit Converter</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6fb;
+margin:0;
+}
+
+header{
+background:#2b7cff;
+color:white;
+text-align:center;
+padding:18px;
+font-size:24px;
+font-weight:bold;
+}
+
+.container{
+max-width:480px;
+margin:30px auto;
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 0 12px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:10px 0;
+}
+
+button{
+background:#2b7cff;
+color:white;
+border:none;
+padding:12px;
+width:100%;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1a5fd1;
+}
+
+.result{
+margin-top:20px;
+font-size:17px;
+line-height:1.8;
+text-align:left;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+Land Unit Converter
+</header>
+
+<div class="container">
+
+<h2>Convert Land Units</h2>
+
+<input type="number" id="value" placeholder="Enter Value">
+
+<select id="unit">
+<option value="sqft">Square Feet</option>
+<option value="sqm">Square Meter</option>
+<option value="katha">Katha</option>
+<option value="bigha">Bigha</option>
+<option value="acre">Acre</option>
+<option value="hectare">Hectare</option>
+</select>
+
+<button onclick="convert()">Convert</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+function convert(){
+
+let value=document.getElementById("value").value;
+let unit=document.getElementById("unit").value;
+
+if(value==""){
+alert("Please enter value");
+return;
+}
+
+let sqft;
+
+if(unit=="sqft"){
+sqft=value;
+}
+
+if(unit=="sqm"){
+sqft=value*10.7639;
+}
+
+if(unit=="katha"){
+sqft=value*720;
+}
+
+if(unit=="bigha"){
+sqft=value*14400;
+}
+
+if(unit=="acre"){
+sqft=value*43560;
+}
+
+if(unit=="hectare"){
+sqft=value*107639;
+}
+
+let sqm=sqft*0.092903;
+let katha=sqft/720;
+let bigha=sqft/14400;
+let acre=sqft/43560;
+let hectare=sqft/107639;
+
+document.getElementById("result").innerHTML=
+
+"<b>Square Feet:</b> "+sqft.toFixed(2)+"<br>"+
+"<b>Square Meter:</b> "+sqm.toFixed(2)+"<br>"+
+"<b>Katha:</b> "+katha.toFixed(2)+"<br>"+
+"<b>Bigha:</b> "+bigha.toFixed(2)+"<br>"+
+"<b>Acre:</b> "+acre.toFixed(4)+"<br>"+
+"<b>Hectare:</b> "+hectare.toFixed(4);
+
+}
+
+</script>
+<section class="seo-content" style="max-width:900px;margin:auto;padding:20px;line-height:1.7;font-family:Arial,Helvetica,sans-serif;">
+
+<h2>Land Unit Converter – Convert Land Measurements Easily</h2>
+
+<p>
+The <strong>Land Unit Converter</strong> is a free online tool that helps you convert land measurements quickly and accurately. 
+Different countries and regions use different units to measure land area, which can make calculations confusing. 
+This simple converter solves that problem by allowing you to convert between common land measurement units such as 
+square feet, square meters, katha, bigha, acre, and hectare.
+</p>
+
+<p>
+Whether you are a farmer, real estate professional, landowner, or property buyer, this tool makes it easy to understand 
+land measurements without complicated formulas. With just one input value, the converter instantly displays results in 
+multiple units.
+</p>
+
+<h2>Why Land Measurement Conversion is Important</h2>
+
+<p>
+Land measurement plays an important role in agriculture, property transactions, and real estate development. 
+Different areas use different units such as bigha, katha, acre, or square feet. Because of these variations, 
+people often need to convert land units when buying or selling property or when working with official land records.
+</p>
+
+<p>
+For example, a farmer may measure farmland in bigha, while government documents may list the same land in acres or 
+hectares. Converting these units manually can be confusing and time-consuming. An online land unit converter makes 
+the process simple and accurate.
+</p>
+
+<h2>Common Land Measurement Units</h2>
+
+<p>
+There are many different land measurement units used around the world. Below are some of the most common units used 
+for measuring land area.
+</p>
+
+<h3>Square Feet (Sq Ft)</h3>
+<p>
+Square feet is one of the most widely used land measurement units in real estate. It is commonly used for residential 
+plots, houses, and small land areas. One acre is equal to 43,560 square feet.
+</p>
+
+<h3>Square Meter (Sq M)</h3>
+<p>
+Square meters are part of the metric system and are widely used internationally. Many countries use square meters 
+for land registration and official property records.
+</p>
+
+<h3>Katha</h3>
+<p>
+Katha is a traditional land measurement unit used in India, Nepal, and Bangladesh. The value of one katha may vary 
+depending on the region, but it is commonly used in rural areas for measuring agricultural land.
+</p>
+
+<h3>Bigha</h3>
+<p>
+Bigha is another traditional land unit used widely in South Asia. Farmers often use bigha to describe farmland size. 
+However, the exact size of one bigha can vary depending on the state or region.
+</p>
+
+<h3>Acre</h3>
+<p>
+An acre is a widely recognized international land measurement unit used for measuring large plots and farmland. 
+It is commonly used in agriculture and property documentation.
+</p>
+
+<h3>Hectare</h3>
+<p>
+A hectare is part of the metric system and is commonly used for measuring large areas of land. One hectare equals 
+10,000 square meters or approximately 2.47 acres.
+</p>
+
+<h2>How to Use the Land Unit Converter</h2>
+
+<p>
+Using the Land Unit Converter is very easy and requires only a few steps:
+</p>
+
+<ol>
+<li>Enter the land value you want to convert.</li>
+<li>Select the unit of measurement such as square feet, acre, or bigha.</li>
+<li>Click the convert button.</li>
+<li>The tool will instantly show the result in multiple land units.</li>
+</ol>
+
+<p>
+This process takes only a few seconds and provides accurate results without manual calculations.
+</p>
+
+<h2>Benefits of Using an Online Land Converter</h2>
+
+<p>
+Using an online land unit converter has many advantages. First, it saves time by performing calculations instantly. 
+Second, it reduces the chances of human error. Third, it allows you to convert between multiple land units at once.
+</p>
+
+<p>
+Manual conversions often require remembering complex formulas or searching for conversion charts. 
+With this tool, you only need to enter a value and the system will automatically calculate the results.
+</p>
+
+<h2>Who Can Use This Tool?</h2>
+
+<p>
+The Land Unit Converter is useful for many different users. Farmers can calculate farmland size for agriculture. 
+Property buyers can verify the area of land before making a purchase. Real estate agents can convert land units 
+when listing properties.
+</p>
+
+<p>
+Students, engineers, and surveyors can also use this tool for educational and professional purposes. Because the 
+converter works online, it can be accessed from any device including smartphones, tablets, and desktop computers.
+</p>
+
+<h2>Related Land Measurement Tools</h2>
+
+<p>
+You may also find these tools useful for land calculations:
+</p>
+
+<ul>
+<li><a href="land-area-calculator.html">Land Area Calculator</a></li>
+<li><a href="bigha-to-acre.html">Bigha to Acre Converter</a></li>
+<li><a href="acre-to-bigha.html">Acre to Bigha Converter</a></li>
+<li><a href="sqft-to-bigha.html">Square Feet to Bigha Converter</a></li>
+</ul>
+
+<p>
+These tools help simplify land measurement calculations and conversions.
+</p>
+
+<h2>Conclusion</h2>
+
+<p>
+The <strong>Land Unit Converter</strong> is a fast and reliable tool designed to make land measurement conversions easy. 
+By entering a single value, you can instantly convert land area into square feet, square meters, katha, bigha, 
+acre, and hectare.
+</p>
+
+<p>
+Whether you are working in agriculture, real estate, or property management, this free online tool will help you 
+understand land measurements more clearly and perform accurate conversions in seconds.
+</p>
+
+</section>
+</body>
+</html>
