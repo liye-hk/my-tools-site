@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultimate Daily Quiz Full Version</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f4f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.quiz-container {
+    background: #fff;
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 100%;
+}
+h2 { text-align: center; margin-bottom: 10px; }
+.timer { font-weight: bold; text-align: center; margin-bottom: 15px; font-size: 20px; }
+.progress-bar { background: #e0e0e0; border-radius: 5px; height: 12px; margin-bottom: 20px; overflow: hidden; }
+.progress-fill { background: #007bff; height: 100%; width: 0%; transition: width 0.3s; }
+.question { margin: 20px 0; font-size: 18px; }
+.options button {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #007bff;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.options button:hover { background: #007bff; color: #fff; }
+.feedback { margin-top: 10px; font-weight: bold; height: 24px; text-align: center; }
+.score-container { text-align: center; margin-top: 20px; font-size: 18px; display: none; }
+.leaderboard, .streak, .badge, .share-btn { margin-top: 10px; font-size: 16px; text-align: center; }
+.share-btn button {
+    margin: 5px 5px;
+    padding: 10px 15px;
+    background: #25D366;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.share-btn button.facebook { background: #4267B2; }
+.share-btn button.twitter { background: #1DA1F2; }
+.share-btn button:hover { opacity: 0.85; }
+.badge { font-weight: bold; color: #FF8C00; }
+</style>
+</head>
+<body>
+<div class="quiz-container">
+    <h2>Ultimate Daily Quiz</h2>
+    <div class="timer" id="timer">01:00</div>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="score-container" id="scoreContainer"></div>
+    <div class="streak" id="streak"></div>
+    <div class="badge" id="badge"></div>
+    <div class="leaderboard" id="leaderboard"></div>
+    <div class="share-btn" id="shareBtn"></div>
+</div>
+
+<script>
+// Multiple daily quiz sets
+const allQuizData = [
+    [
+        { question: "Bharat ka rashtriya phool kaunsa hai?", options: ["Rose","Lotus","Jasmine","Sunflower"], answer: "Lotus" },
+        { question: "Bharat ka rashtriya pashu kaunsa hai?", options: ["Tiger","Lion","Elephant","Peacock"], answer: "Tiger" },
+        { question: "1 km me kitne meters hote hain?", options: ["100","1000","500","2000"], answer: "1000" },
+        { question: "Prithvi surya ke charo taraf kitni ghadi me ghoomti hai?", options: ["24 ghante","12 ghante","365 din","30 din"], answer: "24 ghante" },
+        { question: "Bharat ka rashtriya pakshi kaunsa hai?", options: ["Peacock","Sparrow","Eagle","Parrot"], answer: "Peacock" }
+    ],
+    [
+        { question: "Bharat ki rashtriya nadi kaunsi hai?", options: ["Ganga","Yamuna","Godavari","Kaveri"], answer: "Ganga" },
+        { question: "Bharat ka rashtriya khel kaunsa hai?", options: ["Cricket","Hockey","Football","Kabaddi"], answer: "Hockey" },
+        { question: "Surya ka size kis star se compare kiya jata hai?", options: ["Earth","Moon","Sun","Jupiter"], answer: "Jupiter" },
+        { question: "Bharat ka rashtriya phal kaunsa hai?", options: ["Mango","Apple","Banana","Orange"], answer: "Mango" },
+        { question: "Light ki speed approximately?", options: ["300,000 km/s","150,000 km/s","1,000 km/s","30,000 km/s"], answer: "300,000 km/s" }
+    ],
+    [
+        { question: "Bharat ka rashtriya panchang kaunsa hai?", options: ["Hindu Calendar","Gregorian","Julian","Islamic"], answer: "Hindu Calendar" },
+        { question: "Bharat ka rashtriya dance kaunsa hai?", options: ["Bharatanatyam","Kathak","Odissi","Kuchipudi"], answer: "Bharatanatyam" },
+        { question: "Bharat ka rashtriya janwar kaunsa hai?", options: ["Elephant","Tiger","Lion","Camel"], answer: "Tiger" },
+        { question: "Bharat ki rashtriya bhasha kya hai?", options: ["Hindi","English","Sanskrit","Urdu"], answer: "Hindi" },
+        { question: "Bharat ka rashtriya geet kaunsa hai?", options: ["Vande Mataram","Jana Gana Mana","Saare Jahan Se Achha","Maa Tujhe Salaam"], answer: "Jana Gana Mana" }
+    ]
+];
+
+// Select today's quiz
+const today = new Date();
+const dayIndex = today.getDate() % allQuizData.length;
+const quizData = allQuizData[dayIndex];
+
+let currentQuestion = 0;
+let score = 0;
+const totalQuestions = quizData.length;
+
+// Elements
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const feedbackEl = document.getElementById("feedback");
+const scoreContainer = document.getElementById("scoreContainer");
+const progressFill = document.getElementById("progressFill");
+const timerEl = document.getElementById("timer");
+const leaderboardEl = document.getElementById("leaderboard");
+const streakEl = document.getElementById("streak");
+const badgeEl = document.getElementById("badge");
+const shareBtnEl = document.getElementById("shareBtn");
+
+// Timer
+let time = 60;
+const countdown = setInterval(() => {
+    let minutes = Math.floor(time/60);
+    let seconds = time % 60;
+    timerEl.textContent = (minutes<10?'0'+minutes:minutes) + ":" + (seconds<10?'0'+seconds:seconds);
+    time--;
+    if(time < 0) {
+        clearInterval(countdown);
+        showScore();
+    }
+}, 1000);
+
+// Load question
+function loadQuestion() {
+    if(currentQuestion >= totalQuestions) {
+        showScore();
+        return;
+    }
+    const q = quizData[currentQuestion];
+    questionEl.textContent = `${currentQuestion+1}. ${q.question}`;
+    optionsEl.innerHTML = "";
+    feedbackEl.textContent = "";
+    q.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(opt);
+        optionsEl.appendChild(btn);
+    });
+    progressFill.style.width = ((currentQuestion)/totalQuestions*100) + "%";
+}
+
+// Check answer
+function checkAnswer(selected) {
+    if(selected === quizData[currentQuestion].answer) {
+        score++;
+        feedbackEl.style.color = "green";
+        feedbackEl.textContent = "Correct!";
+    } else {
+        feedbackEl.style.color = "red";
+        feedbackEl.textContent = "Wrong! Answer: " + quizData[currentQuestion].answer;
+    }
+    currentQuestion++;
+    setTimeout(loadQuestion, 800);
+}
+
+// Show final results
+function showScore() {
+    questionEl.style.display = "none";
+    optionsEl.style.display = "none";
+    feedbackEl.style.display = "none";
+    progressFill.style.width = "100%";
+    timerEl.style.display = "none";
+    scoreContainer.style.display = "block";
+    scoreContainer.textContent = `Quiz Over! Your Score: ${score} / ${totalQuestions}`;
+
+    // Update streak
+    const todayKey = 'quizScore_' + today.toISOString().split('T')[0];
+    const lastDate = localStorage.getItem('lastQuizDate');
+    let streak = parseInt(localStorage.getItem('quizStreak')) || 0;
+    const yesterday = new Date(today); yesterday.setDate(today.getDate()-1);
+    const yesterdayKey = yesterday.toISOString().split('T')[0];
+
+    if(lastDate === yesterdayKey) streak++;
+    else if(lastDate !== todayKey) streak = 1;
+
+    localStorage.setItem('quizStreak', streak);
+    localStorage.setItem('lastQuizDate', todayKey);
+    localStorage.setItem(todayKey, score);
+
+    streakEl.textContent = `Your Daily Streak: ${streak} day(s)`;
+
+    // Badges
+    if(streak >= 5) badgeEl.textContent = "🏅 Bronze Badge!";
+    if(streak >= 10) badgeEl.textContent = "🥈 Silver Badge!";
+    if(streak >= 20) badgeEl.textContent = "🥇 Gold Badge!";
+
+    // Leaderboard Top 10
+    let scores = [];
+    for(let key in localStorage){
+        if(key.startsWith('quizScore_')){
+            scores.push(parseInt(localStorage.getItem(key)));
+        }
+    }
+    scores.sort((a,b)=>b-a);
+    let topScores = scores.slice(0,10);
+    leaderboardEl.innerHTML = `Top Scores: ${topScores.join(", ")}`;
+
+    // Share Buttons
+    shareBtnEl.innerHTML = `
+        <button onclick="shareWhatsApp()">Share WhatsApp</button>
+        <button class="facebook" onclick="shareFacebook()">Share Facebook</button>
+        <button class="twitter" onclick="shareTwitter()">Share Twitter</button>
+    `;
+}
+
+// Social share
+function shareWhatsApp(){
+    const text = `I scored ${score}/${totalQuestions} in Daily Mini Quiz! Can you beat me?`;
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}%20${url}`, '_blank');
+}
+function shareFacebook(){
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(`I scored ${score}/${totalQuestions} in Daily Mini Quiz! Can you beat me?`);
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
+}
+function shareTwitter(){
+    const url = encodeURIComponent(window.location.href);
+    const text = encodeURIComponent(`I scored ${score}/${totalQuestions} in Daily Mini Quiz! Can you beat me?`);
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+}
+
+// Start
+loadQuestion();
+</script>
+  
+</body>
+</html>
