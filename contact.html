@@ -1,24 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Contact Us - Shayan Smart Tools</title>
-<meta name="description" content="Contact Shayan Smart Tools for feedback, suggestions, or business inquiries.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://shayandigitalservice.github.io/my-tools-site/contact.html">
+
+<style>
+
+body{
+font-family:Arial, sans-serif;
+background:#f4f6fb;
+margin:0;
+padding:0;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.contact-box{
+background:white;
+padding:30px;
+border-radius:12px;
+width:90%;
+max-width:450px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+text-align:center;
+}
+
+h2{
+color:#2b7cff;
+margin-bottom:10px;
+}
+
+p{
+color:#555;
+font-size:14px;
+}
+
+input,textarea{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:14px;
+}
+
+textarea{
+height:120px;
+}
+
+button{
+background:#2b7cff;
+color:white;
+border:none;
+padding:12px;
+width:100%;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1d5ed8;
+}
+
+</style>
+
 </head>
+
 <body>
 
-<h1>Contact Us</h1>
+<div class="contact-box">
 
-<p>If you have any questions, suggestions, feedback, or business inquiries, feel free to contact us.</p>
+<h2>Contact Us</h2>
 
-<p>Email: shayandigitalservice99@gmail.com</p>
+<p>If you have any questions about our tools, feel free to contact us.</p>
 
-<p>We aim to respond within 24–48 hours.</p>
+<form action="https://formsubmit.co/shayandigitalservice99@gmail.com" method="POST">
 
-<p>For technical issues, please include the tool name and a short description of the problem.</p>
+<input type="text" name="name" placeholder="Your Name" required>
+
+<input type="email" name="email" placeholder="Your Email" required>
+
+<input type="text" name="address" placeholder="Your Address">
+
+<textarea name="message" placeholder="Type your message here..." required></textarea>
+
+<button type="submit">Send Message</button>
+
+</form>
+
+</div>
 
 </body>
 </html>
