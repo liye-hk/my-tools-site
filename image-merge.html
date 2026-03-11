@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Free Image Merge Tool Online – Combine Multiple Images</title>
+
+<meta name="description" content="Merge multiple images into one image online. Combine photos vertically or horizontally and download instantly. Free Image Merge Tool by Shayan Smart Tools.">
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f6fb;
+margin:0;
+padding:20px;
+text-align:center;
+}
+
+.container{
+max-width:750px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 8px 25px rgba(0,0,0,0.1);
+}
+
+h1{
+color:#2b7cff;
+margin-bottom:10px;
+}
+
+.drop-area{
+border:2px dashed #2b7cff;
+padding:30px;
+border-radius:10px;
+margin:20px 0;
+cursor:pointer;
+background:#f9fbff;
+}
+
+.drop-area:hover{
+background:#eef4ff;
+}
+
+.preview{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
+margin-top:20px;
+}
+
+.preview img{
+width:90px;
+height:90px;
+object-fit:cover;
+border-radius:6px;
+}
+
+button{
+background:linear-gradient(135deg,#2b7cff,#4facfe);
+border:none;
+color:white;
+padding:12px 20px;
+border-radius:8px;
+cursor:pointer;
+margin:10px;
+font-size:15px;
+}
+
+button:hover{
+opacity:0.9;
+}
+
+select{
+padding:8px;
+border-radius:6px;
+margin-top:10px;
+}
+
+canvas{
+margin-top:20px;
+max-width:100%;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
+.seo{
+max-width:900px;
+margin:40px auto;
+text-align:left;
+line-height:1.7;
+color:#444;
+}
+
+.seo h2{
+color:#2b7cff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Image Merge Tool</h1>
+
+<p>Combine multiple images into one image instantly.</p>
+
+<div class="drop-area" id="dropArea">
+Drag & Drop Images Here<br>or Click to Upload
+</div>
+
+<input type="file" id="images" multiple accept="image/*" style="display:none">
+
+<select id="direction">
+<option value="vertical">Vertical Merge</option>
+<option value="horizontal">Horizontal Merge</option>
+</select>
+
+<br>
+
+<button onclick="mergeImages()">Merge Images</button>
+
+<button onclick="downloadImage()">Download Image</button>
+
+<div class="preview" id="preview"></div>
+
+<canvas id="canvas"></canvas>
+
+</div>
+
+<section class="seo">
+
+<h2>Free Image Merge Tool Online</h2>
+
+<p>
+The Image Merge Tool by Shayan Smart Tools allows users to combine multiple images into a single image quickly and easily. This tool is useful for creating photo collages, combining screenshots, or merging multiple pictures into one file.
+</p>
+
+<p>
+You can merge images vertically or horizontally depending on your needs. The tool works directly in your browser, so your images remain secure and are not uploaded to any server.
+</p>
+
+<p>
+This free online image tool is mobile friendly and works on smartphones, tablets, and desktop computers. Simply upload your images, choose the merge direction, and download the final merged image instantly.
+</p>
+
+</section>
+
+<script>
+
+const dropArea=document.getElementById("dropArea")
+const input=document.getElementById("images")
+const preview=document.getElementById("preview")
+
+dropArea.onclick=()=>input.click()
+
+dropArea.addEventListener("dragover",(e)=>{
+e.preventDefault()
+})
+
+dropArea.addEventListener("drop",(e)=>{
+e.preventDefault()
+input.files=e.dataTransfer.files
+showPreview()
+})
+
+input.addEventListener("change",showPreview)
+
+function showPreview(){
+
+preview.innerHTML=""
+
+for(let file of input.files){
+
+let img=document.createElement("img")
+
+img.src=URL.createObjectURL(file)
+
+preview.appendChild(img)
+
+}
+
+}
+
+function mergeImages(){
+
+let files=input.files
+let direction=document.getElementById("direction").value
+let canvas=document.getElementById("canvas")
+let ctx=canvas.getContext("2d")
+
+if(files.length==0){
+alert("Upload images first")
+return
+}
+
+let images=[]
+let loaded=0
+
+for(let i=0;i<files.length;i++){
+
+let img=new Image()
+
+img.onload=function(){
+
+images.push(img)
+loaded++
+
+if(loaded===files.length){
+
+let width=0
+let height=0
+
+if(direction==="vertical"){
+
+images.forEach(img=>{
+width=Math.max(width,img.width)
+height+=img.height
+})
+
+}else{
+
+images.forEach(img=>{
+width+=img.width
+height=Math.max(height,img.height)
+})
+
+}
+
+canvas.width=width
+canvas.height=height
+
+let x=0
+let y=0
+
+images.forEach(img=>{
+
+ctx.drawImage(img,x,y)
+
+if(direction==="vertical"){
+y+=img.height
+}else{
+x+=img.width
+}
+
+})
+
+}
+
+}
+
+img.src=URL.createObjectURL(files[i])
+
+}
+
+}
+
+function downloadImage(){
+
+let canvas=document.getElementById("canvas")
+
+let link=document.createElement("a")
+
+link.download="merged-image.png"
+
+link.href=canvas.toDataURL()
+
+link.click()
+
+}
+
+</script>
+
+</body>
+  </html>
