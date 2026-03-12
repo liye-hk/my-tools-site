@@ -1,148 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weight to Price Calculator with History - Shayan Smart Tools</title>
+<meta name="description" content="Convert weight in Gram, Kg, Quintal, Ton, Pound to price. History & PDF export available. Modern UI, mobile friendly.">
 
-<title>Weight to Price Calculator - Shayan Smart Tools</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
-
 body{
-font-family:Arial;
-background:#f4f6fb;
-margin:0;
-padding:20px;
+  font-family:'Roboto', sans-serif;
+  background:#f5f7fa;
+  margin:0;
+  padding:20px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  min-height:100vh;
 }
-
 .container{
-max-width:600px;
-margin:auto;
-background:white;
-padding:25px;
-border-radius:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.1);
+  background:white;
+  max-width:500px;
+  width:95%;
+  padding:25px 20px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+  text-align:center;
 }
-
 h1{
-text-align:center;
-color:#2b7cff;
+  color:#2b7cff;
+  margin-bottom:20px;
 }
-
-input,select{
-width:100%;
-padding:12px;
-margin:10px 0;
-border-radius:6px;
-border:1px solid #ccc;
-font-size:16px;
+input, select{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:16px;
 }
-
 button{
-width:100%;
-padding:12px;
-background:#2b7cff;
-color:white;
-border:none;
-border-radius:6px;
-font-size:16px;
-cursor:pointer;
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(135deg,#4facfe,#2b7cff);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s ease;
 }
-
 button:hover{
-background:#1f5ed6;
+  transform:scale(1.03);
 }
-
 .result{
-margin-top:15px;
-background:#eef3ff;
-padding:15px;
-border-radius:6px;
-font-weight:bold;
+  margin-top:20px;
+  padding:15px;
+  background:#eef4ff;
+  border-radius:10px;
+  font-weight:500;
 }
-
-table{
-width:100%;
-margin-top:20px;
-border-collapse:collapse;
+.history-section{
+  margin-top:25px;
+  text-align:left;
 }
-
-th,td{
-border:1px solid #ccc;
-padding:8px;
-font-size:14px;
-text-align:left;
+.history-section table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
 }
-
+.history-section th, .history-section td{
+  padding:8px;
+  border-bottom:1px solid #ccc;
+  text-align:left;
+  font-size:14px;
+}
 .pdf-btn{
-margin-top:10px;
-background:#27ae60;
+  margin-top:10px;
+  width:auto;
+  padding:10px 20px;
+  font-size:14px;
+  background:#2b7cff;
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+  border:none;
 }
-
-.seo{
-max-width:800px;
-margin:40px auto;
-line-height:1.7;
+.pdf-btn:hover{
+  background:#1a5fcc;
 }
-
+@media(max-width:480px){
+  .container{
+    padding:20px 15px;
+  }
+  input, select, button{
+    font-size:15px;
+    padding:10px;
+  }
+  h1{
+    font-size:22px;
+  }
+}
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
 <h1>Weight to Price Calculator</h1>
 
-<input type="number" id="weightInput" placeholder="Enter Weight">
-
+<input type="number" id="weightInput" placeholder="Enter weight" min="0">
 <select id="unitSelect">
-
-<option value="gram">Gram</option>
-<option value="kg">Kilogram</option>
-<option value="quintal">Quintal</option>
-<option value="ton">Ton</option>
-<option value="pound">Pound</option>
-
+  <option value="gram">Gram (g)</option>
+  <option value="kg">Kilogram (Kg)</option>
+  <option value="quintal">Quintal (Qt)</option>
+  <option value="ton">Ton</option>
+  <option value="pound">Pound (lb)</option>
 </select>
-
-<input type="number" id="pricePerKg" placeholder="Price per Kg">
+<input type="number" id="pricePerKg" placeholder="Price per Kg" min="0">
 
 <button onclick="calculatePrice()">Calculate Price</button>
 
-<div class="result" id="result">
-Total Price will appear here
-</div>
+<div class="result" id="result">Total Price will appear here</div>
 
+<div class="history-section">
 <h3>Calculation History</h3>
-
 <table id="historyTable">
-
 <thead>
 <tr>
-<th>Date</th>
+<th>Date & Time</th>
 <th>Weight</th>
 <th>Unit</th>
 <th>Price/Kg</th>
-<th>Total</th>
+<th>Total Price</th>
 </tr>
 </thead>
-
-<tbody></tbody>
-
+<tbody>
+<!-- History rows will appear here -->
+</tbody>
 </table>
-
-<button class="pdf-btn" onclick="downloadPDF()">
-Download History PDF
-</button>
-
+<button class="pdf-btn" onclick="downloadPDF()">Download History as PDF</button>
+</div>
 </div>
 
-<!-- SEO CONTENT -->
+<!-- jsPDF Library for PDF Export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const historyData = [];
 
-<div class="seo">
-<div class="seo-content">
+function calculatePrice(){
+  const weight = parseFloat(document.getElementById('weightInput').value);
+  const unit = document.getElementById('unitSelect').value;
+  const pricePerKg = parseFloat(document.getElementById('pricePerKg').value);
+
+  if(isNaN(weight) || isNaN(pricePerKg)){
+    alert('Please enter valid numbers!');
+    return;
+  }
+
+  // Convert to Kg
+  let weightInKg;
+  switch(unit){
+    case 'gram': weightInKg = weight / 1000; break;
+    case 'kg': weightInKg = weight; break;
+    case 'quintal': weightInKg = weight * 100; break;
+    case 'ton': weightInKg = weight * 1000; break;
+    case 'pound': weightInKg = weight * 0.453592; break;
+    default: weightInKg = weight;
+  }
+
+  const totalPrice = weightInKg * pricePerKg;
+
+  document.getElementById('result').innerHTML = `<b>Total Price:</b> ₹ ${totalPrice.toFixed(2)}`;
+
+  // Add to history
+  const now = new Date();
+  historyData.push({
+    date: now.toLocaleString(),
+    weight,
+    unit,
+    pricePerKg,
+    totalPrice: totalPrice.toFixed(2)
+  });
+  updateHistoryTable();
+}
+
+function updateHistoryTable(){
+  const tbody = document.getElementById('historyTable').querySelector('tbody');
+  tbody.innerHTML = '';
+  historyData.forEach(item=>{
+    const row = `<tr>
+      <td>${item.date}</td>
+      <td>${item.weight}</td>
+      <td>${item.unit}</td>
+      <td>₹ ${item.pricePerKg}</td>
+      <td>₹ ${item.totalPrice}</td>
+    </tr>`;
+    tbody.innerHTML += row;
+  });
+}
+
+// PDF Download
+function downloadPDF(){
+  if(historyData.length===0){
+    alert('No history to download!');
+    return;
+  }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(16);
+  doc.text("Weight to Price Calculation History", 15, 15);
+  let y = 25;
+  historyData.forEach((item,index)=>{
+    doc.setFontSize(12);
+    doc.text(`${index+1}. ${item.date} | ${item.weight} ${item.unit} | Price/Kg: ₹${item.pricePerKg} | Total: ₹${item.totalPrice}`, 15, y);
+    y+=8;
+    if(y>280){
+      doc.addPage();
+      y=20;
+    }
+  });
+  doc.save("calculation_history.pdf");
+}
+</script>
+  <div class="seo-content">
 
 <h1>Weight to Price Calculator Online – Gram, Kg, Quintal, Ton, Pound</h1>
 
@@ -321,136 +403,6 @@ Shayan Smart Tools का Weight to Price Calculator एक simple, fast और 
 अभी इस calculator को use करें और manual calculations से छुटकारा पाएं।
 </p>
 
-</div>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<script>
-
-const historyData=[];
-
-function calculatePrice(){
-
-const weight=parseFloat(document.getElementById("weightInput").value);
-const unit=document.getElementById("unitSelect").value;
-const pricePerKg=parseFloat(document.getElementById("pricePerKg").value);
-
-if(isNaN(weight) || isNaN(pricePerKg)){
-
-alert("Enter valid numbers");
-
-return;
-
-}
-
-let weightKg;
-
-switch(unit){
-
-case "gram":
-weightKg=weight/1000;
-break;
-
-case "kg":
-weightKg=weight;
-break;
-
-case "quintal":
-weightKg=weight*100;
-break;
-
-case "ton":
-weightKg=weight*1000;
-break;
-
-case "pound":
-weightKg=weight*0.453592;
-break;
-
-default:
-weightKg=weight;
-
-}
-
-const total=weightKg*pricePerKg;
-
-document.getElementById("result").innerHTML=
-"Total Price: ₹ "+total.toFixed(2);
-
-const now=new Date();
-
-historyData.push({
-date:now.toLocaleString(),
-weight,
-unit,
-pricePerKg,
-total
-});
-
-updateHistory();
-
-}
-
-function updateHistory(){
-
-const tbody=document.querySelector("#historyTable tbody");
-
-tbody.innerHTML="";
-
-historyData.forEach(item=>{
-
-const row=`
-<tr>
-<td>${item.date}</td>
-<td>${item.weight}</td>
-<td>${item.unit}</td>
-<td>${item.pricePerKg}</td>
-<td>${item.total.toFixed(2)}</td>
-</tr>
-`;
-
-tbody.innerHTML+=row;
-
-});
-
-}
-
-function downloadPDF(){
-
-if(historyData.length===0){
-
-alert("No history available");
-
-return;
-
-}
-
-const {jsPDF}=window.jspdf;
-
-const doc=new jsPDF();
-
-doc.text("Weight to Price History",20,20);
-
-let y=30;
-
-historyData.forEach((item,i)=>{
-
-doc.text(
-`${i+1}. ${item.weight} ${item.unit} | ₹${item.pricePerKg}/kg | Total ₹${item.total}`,
-20,
-y
-);
-
-y+=10;
-
-});
-
-doc.save("calculation_history.pdf");
-
-}
-
-</script>
-
+  </div>
 </body>
 </html>
