@@ -20,19 +20,22 @@ body{
 /* Main wrapper for side-by-side layout */
 .main-wrapper {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column; /* Sections vertically stack honge */
+  align-items: center;    /* Calculator horizontally center hoga */
   gap: 20px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
+
 /* Sections */
-.calculator-section, .seo-section {
-  flex: 1;
-  min-width: 300px;
-  background:white;
-  padding:25px 20px;
-  border-radius:15px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+.calculator-section {
+  background: white;
+  padding: 25px 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  width: 100%;
+  max-width: 500px;  /* Maximum width screen me */
+  text-align: center;
 }
 
 h1{
