@@ -1,442 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Weight to Price Calculator with History - Shayan Smart Tools</title>
-<meta name="description" content="Convert weight in Gram, Kg, Quintal, Ton, Pound to price. History & PDF export available. Modern UI, mobile friendly.">
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-.seo-content{
-
+<title>Weight to Price Calculator - Shayan Smart Tools</title>
 
 <style>
-  .seo-content{
-  max-width:800px;
-  width:95%;
-  margin:40px auto;
-  background:white;
-  padding:25px;
-  border-radius:12px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.08);
-  line-height:1.7;
-}
 
-.seo-content h1{
-  color:#2b7cff;
-  font-size:28px;
-}
-
-.seo-content h2{
-  margin-top:25px;
-  color:#333;
-}
-
-.seo-content a{
-  color:#2b7cff;
-  text-decoration:none;
-}
-
-.seo-content a:hover{
-  text-decoration:underline;
-}
 body{
-  font-family:'Roboto', sans-serif;
-  background:#f5f7fa;
-  margin:0;
-  padding:20px;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  min-height:100vh;
+font-family:Arial;
+background:#f4f6fb;
+margin:0;
+padding:20px;
 }
+
 .container{
-  background:white;
-  max-width:500px;
-  width:95%;
-  padding:25px 20px;
-  border-radius:15px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.12);
-  text-align:center;
+max-width:600px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.1);
 }
+
 h1{
-  color:#2b7cff;
-  margin-bottom:20px;
+text-align:center;
+color:#2b7cff;
 }
-input, select{
-  width:100%;
-  padding:12px;
-  margin:10px 0;
-  border-radius:8px;
-  border:1px solid #ccc;
-  font-size:16px;
+
+input,select{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:16px;
 }
+
 button{
-  width:100%;
-  padding:14px;
-  margin-top:15px;
-  border:none;
-  border-radius:8px;
-  background:linear-gradient(135deg,#4facfe,#2b7cff);
-  color:white;
-  font-size:16px;
-  cursor:pointer;
-  transition:0.3s ease;
+width:100%;
+padding:12px;
+background:#2b7cff;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
 }
+
 button:hover{
-  transform:scale(1.03);
+background:#1f5ed6;
 }
+
 .result{
-  margin-top:20px;
-  padding:15px;
-  background:#eef4ff;
-  border-radius:10px;
-  font-weight:500;
+margin-top:15px;
+background:#eef3ff;
+padding:15px;
+border-radius:6px;
+font-weight:bold;
 }
-.history-section{
-  margin-top:25px;
-  text-align:left;
+
+table{
+width:100%;
+margin-top:20px;
+border-collapse:collapse;
 }
-.history-section table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
+
+th,td{
+border:1px solid #ccc;
+padding:8px;
+font-size:14px;
+text-align:left;
 }
-.history-section th, .history-section td{
-  padding:8px;
-  border-bottom:1px solid #ccc;
-  text-align:left;
-  font-size:14px;
-}
+
 .pdf-btn{
-  margin-top:10px;
-  width:auto;
-  padding:10px 20px;
-  font-size:14px;
-  background:#2b7cff;
-  color:white;
-  border-radius:8px;
-  cursor:pointer;
-  border:none;
+margin-top:10px;
+background:#27ae60;
 }
-.pdf-btn:hover{
-  background:#1a5fcc;
+
+.seo{
+max-width:800px;
+margin:40px auto;
+line-height:1.7;
 }
-@media(max-width:480px){
-  .container{
-    padding:20px 15px;
-  }
-  input, select, button{
-    font-size:15px;
-    padding:10px;
-  }
-  h1{
-    font-size:22px;
-  }
-}
+
 </style>
 </head>
+
 <body>
+
 <div class="container">
+
 <h1>Weight to Price Calculator</h1>
 
-<input type="number" id="weightInput" placeholder="Enter weight" min="0">
+<input type="number" id="weightInput" placeholder="Enter Weight">
+
 <select id="unitSelect">
-  <option value="gram">Gram (g)</option>
-  <option value="kg">Kilogram (Kg)</option>
-  <option value="quintal">Quintal (Qt)</option>
-  <option value="ton">Ton</option>
-  <option value="pound">Pound (lb)</option>
+
+<option value="gram">Gram</option>
+<option value="kg">Kilogram</option>
+<option value="quintal">Quintal</option>
+<option value="ton">Ton</option>
+<option value="pound">Pound</option>
+
 </select>
-<input type="number" id="pricePerKg" placeholder="Price per Kg" min="0">
+
+<input type="number" id="pricePerKg" placeholder="Price per Kg">
 
 <button onclick="calculatePrice()">Calculate Price</button>
 
-<div class="result" id="result">Total Price will appear here</div>
+<div class="result" id="result">
+Total Price will appear here
+</div>
 
-<div class="history-section">
 <h3>Calculation History</h3>
+
 <table id="historyTable">
+
 <thead>
 <tr>
-<th>Date & Time</th>
+<th>Date</th>
 <th>Weight</th>
 <th>Unit</th>
 <th>Price/Kg</th>
-<th>Total Price</th>
+<th>Total</th>
 </tr>
 </thead>
-<tbody>
-<!-- History rows will appear here -->
-</tbody>
+
+<tbody></tbody>
+
 </table>
-<button class="pdf-btn" onclick="downloadPDF()">Download History as PDF</button>
-</div>
+
+<button class="pdf-btn" onclick="downloadPDF()">
+Download History PDF
+</button>
+
 </div>
 
-<!-- jsPDF Library for PDF Export -->
+<!-- SEO CONTENT -->
+
+<div class="seo">
+
+<h2>Weight to Price Calculator Online</h2>
+
+<p>
+Shayan Smart Tools ka Weight to Price Calculator ek powerful online tool hai jisse aap Gram, Kilogram, Quintal, Ton aur Pound jaise units ko easily price me convert kar sakte hain. Ye tool shopkeepers, farmers, traders aur buyers ke liye bahut useful hai.
+</p>
+
+<p>
+Agar aapko kisi product ka weight pata hai aur uska price per kilogram pata hai to ye calculator instantly total price calculate kar deta hai.
+</p>
+
+<p>
+Example: Agar 1 Quintal ka price ₹1860 hai aur aapke paas 766 kg product hai to ye tool automatically uska correct price calculate karega.
+</p>
+
+<p>
+Is calculator ka interface simple aur mobile friendly hai jisse aap mobile, tablet aur desktop sab me easily use kar sakte hain.
+</p>
+
+<p>
+Shayan Smart Tools par aap aur bhi useful tools use kar sakte hain:
+</p>
+
+<p>
+
+<a href="gst.html">GST Calculator</a> |
+<a href="profit-loss.html">Profit Loss Calculator</a> |
+<a href="simple-interest.html">Simple Interest Calculator</a> |
+<a href="fd-calculator.html">FD Calculator</a> |
+<a href="rd-calculator.html">RD Calculator</a>
+
+</p>
+
+</div>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script>
-const historyData = [];
+
+const historyData=[];
 
 function calculatePrice(){
-  const weight = parseFloat(document.getElementById('weightInput').value);
-  const unit = document.getElementById('unitSelect').value;
-  const pricePerKg = parseFloat(document.getElementById('pricePerKg').value);
 
-  if(isNaN(weight) || isNaN(pricePerKg)){
-    alert('Please enter valid numbers!');
-    return;
-  }
+const weight=parseFloat(document.getElementById("weightInput").value);
+const unit=document.getElementById("unitSelect").value;
+const pricePerKg=parseFloat(document.getElementById("pricePerKg").value);
 
-  // Convert to Kg
-  let weightInKg;
-  switch(unit){
-    case 'gram': weightInKg = weight / 1000; break;
-    case 'kg': weightInKg = weight; break;
-    case 'quintal': weightInKg = weight * 100; break;
-    case 'ton': weightInKg = weight * 1000; break;
-    case 'pound': weightInKg = weight * 0.453592; break;
-    default: weightInKg = weight;
-  }
+if(isNaN(weight) || isNaN(pricePerKg)){
 
-  const totalPrice = weightInKg * pricePerKg;
+alert("Enter valid numbers");
 
-  document.getElementById('result').innerHTML = `<b>Total Price:</b> ₹ ${totalPrice.toFixed(2)}`;
+return;
 
-  // Add to history
-  const now = new Date();
-  historyData.push({
-    date: now.toLocaleString(),
-    weight,
-    unit,
-    pricePerKg,
-    totalPrice: totalPrice.toFixed(2)
-  });
-  updateHistoryTable();
 }
 
-function updateHistoryTable(){
-  const tbody = document.getElementById('historyTable').querySelector('tbody');
-  tbody.innerHTML = '';
-  historyData.forEach(item=>{
-    const row = `<tr>
-      <td>${item.date}</td>
-      <td>${item.weight}</td>
-      <td>${item.unit}</td>
-      <td>₹ ${item.pricePerKg}</td>
-      <td>₹ ${item.totalPrice}</td>
-    </tr>`;
-    tbody.innerHTML += row;
-  });
+let weightKg;
+
+switch(unit){
+
+case "gram":
+weightKg=weight/1000;
+break;
+
+case "kg":
+weightKg=weight;
+break;
+
+case "quintal":
+weightKg=weight*100;
+break;
+
+case "ton":
+weightKg=weight*1000;
+break;
+
+case "pound":
+weightKg=weight*0.453592;
+break;
+
+default:
+weightKg=weight;
+
 }
 
-// PDF Download
+const total=weightKg*pricePerKg;
+
+document.getElementById("result").innerHTML=
+"Total Price: ₹ "+total.toFixed(2);
+
+const now=new Date();
+
+historyData.push({
+date:now.toLocaleString(),
+weight,
+unit,
+pricePerKg,
+total
+});
+
+updateHistory();
+
+}
+
+function updateHistory(){
+
+const tbody=document.querySelector("#historyTable tbody");
+
+tbody.innerHTML="";
+
+historyData.forEach(item=>{
+
+const row=`
+<tr>
+<td>${item.date}</td>
+<td>${item.weight}</td>
+<td>${item.unit}</td>
+<td>${item.pricePerKg}</td>
+<td>${item.total.toFixed(2)}</td>
+</tr>
+`;
+
+tbody.innerHTML+=row;
+
+});
+
+}
+
 function downloadPDF(){
-  if(historyData.length===0){
-    alert('No history to download!');
-    return;
-  }
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  doc.setFontSize(16);
-  doc.text("Weight to Price Calculation History", 15, 15);
-  let y = 25;
-  historyData.forEach((item,index)=>{
-    doc.setFontSize(12);
-    doc.text(`${index+1}. ${item.date} | ${item.weight} ${item.unit} | Price/Kg: ₹${item.pricePerKg} | Total: ₹${item.totalPrice}`, 15, y);
-    y+=8;
-    if(y>280){
-      doc.addPage();
-      y=20;
-    }
-  });
-  doc.save("calculation_history.pdf");
+
+if(historyData.length===0){
+
+alert("No history available");
+
+return;
+
 }
+
+const {jsPDF}=window.jspdf;
+
+const doc=new jsPDF();
+
+doc.text("Weight to Price History",20,20);
+
+let y=30;
+
+historyData.forEach((item,i)=>{
+
+doc.text(
+`${i+1}. ${item.weight} ${item.unit} | ₹${item.pricePerKg}/kg | Total ₹${item.total}`,
+20,
+y
+);
+
+y+=10;
+
+});
+
+doc.save("calculation_history.pdf");
+
+}
+
 </script>
 
-</div>
-  
-  <div class="seo-content">
-
-<h1>Weight to Price Calculator Online – Gram, Kg, Quintal, Ton, Pound</h1>
-
-<p>
-Shayan Smart Tools का <strong>Weight to Price Calculator</strong> एक powerful और easy-to-use online tool है जो किसी भी weight को तुरंत price में convert करने में मदद करता है। अगर आप shopkeeper, farmer, trader, wholesaler या buyer हैं तो यह calculator आपके लिए बहुत उपयोगी है। इसकी मदद से आप Gram, Kilogram, Quintal, Ton और Pound जैसे units में weight डालकर तुरंत total price calculate कर सकते हैं।
-</p>
-
-<p>
-कई बार business में या daily trading में हमें weight के हिसाब से price calculate करना पड़ता है। Manual calculation करने में समय लगता है और गलती होने की संभावना भी रहती है। इसी समस्या को हल करने के लिए Shayan Smart Tools ने यह free online calculator बनाया है जो कुछ ही seconds में accurate result देता है।
-</p>
-
-<h2>Weight to Price Calculator क्या है?</h2>
-
-<p>
-Weight to Price Calculator एक online tool है जो किसी भी weight के आधार पर product की total price calculate करता है। आपको बस weight enter करना है, unit select करना है और price per kilogram डालना है। इसके बाद calculator automatically total price calculate कर देता है।
-</p>
-
-<p>
-यह tool खासतौर पर उन लोगों के लिए बनाया गया है जो daily basis पर products खरीदते या बेचते हैं। उदाहरण के लिए अगर 1 quintal का price ₹1860 है और आपके पास 766 kg गेहूं है, तो यह calculator तुरंत बता देगा कि उसका total price कितना होगा।
-</p>
-
-<h2>Weight to Price Calculator कैसे काम करता है?</h2>
-
-<p>
-यह calculator standard weight conversion formulas का उपयोग करता है। कुछ important conversions नीचे दिए गए हैं:
-</p>
-
-<ul>
-<li>1 Kilogram = 1000 Gram</li>
-<li>1 Quintal = 100 Kilogram</li>
-<li>1 Ton = 1000 Kilogram</li>
-<li>1 Pound = 0.453592 Kilogram</li>
-</ul>
-
-<p>
-Calculator पहले weight को kilogram में convert करता है और फिर price per kilogram से multiply करके total price निकालता है।
-</p>
-
-<h2>Weight to Price Calculator कैसे इस्तेमाल करें?</h2>
-
-<p>
-इस calculator को इस्तेमाल करना बहुत आसान है। नीचे simple steps दिए गए हैं:
-</p>
-
-<ol>
-<li>Weight input box में weight enter करें।</li>
-<li>Unit dropdown से Gram, Kg, Quintal, Ton या Pound select करें।</li>
-<li>Price per Kg input करें।</li>
-<li>Calculate button पर click करें।</li>
-<li>Calculator तुरंत total price दिखा देगा।</li>
-</ol>
-
-<p>
-इसके अलावा calculator आपकी calculations को history table में भी save करता है ताकि आप बाद में उन्हें देख सकें।
-</p>
-
-<h2>इस calculator के फायदे</h2>
-
-<p>
-Weight to Price Calculator का उपयोग करने के कई फायदे हैं। यह tool fast, accurate और easy to use है। नीचे इसके कुछ main benefits दिए गए हैं:
-</p>
-
-<ul>
-<li>Instant calculation – कुछ seconds में result</li>
-<li>Multiple units support – Gram, Kg, Quintal, Ton, Pound</li>
-<li>Business friendly – traders और shopkeepers के लिए useful</li>
-<li>Mobile friendly – smartphone और tablet पर भी काम करता है</li>
-<li>Free tool – बिना किसी cost के use कर सकते हैं</li>
-</ul>
-
-<h2>किसके लिए useful है?</h2>
-
-<p>
-यह calculator कई different users के लिए helpful है:
-</p>
-
-<ul>
-<li>Shopkeepers</li>
-<li>Farmers</li>
-<li>Traders</li>
-<li>Wholesalers</li>
-<li>Retail buyers</li>
-<li>Students</li>
-</ul>
-
-<p>
-अगर आप grains, vegetables, fruits या किसी भी weight-based product का business करते हैं तो यह calculator आपके लिए daily use का tool बन सकता है।
-</p>
-
-<h2>Example Calculation</h2>
-
-<p>
-मान लीजिए 1 Quintal चावल का price ₹2000 है और आपके पास 350 Kg चावल है।
-</p>
-
-<p>
-Calculator पहले weight को quintal में convert करेगा और फिर price calculate करेगा।
-</p>
-
-<p>
-350 Kg = 3.5 Quintal  
-3.5 × ₹2000 = ₹7000
-</p>
-
-<p>
-इस तरह calculator instantly correct result देता है।
-</p>
-
-<h2>Mobile Friendly Online Tool</h2>
-
-<p>
-आजकल ज्यादातर लोग mobile phone से internet use करते हैं। इसलिए Shayan Smart Tools का यह calculator पूरी तरह mobile friendly बनाया गया है। इसका responsive design automatically screen size के अनुसार adjust हो जाता है।
-</p>
-
-<p>
-आप इसे Android phone, iPhone, tablet या desktop computer पर आसानी से use कर सकते हैं।
-</p>
-
-<h2>Accurate और Reliable Calculator</h2>
-
-<p>
-Manual calculations में अक्सर mistakes हो जाती हैं। खासकर जब weight conversion करना पड़ता है। लेकिन यह calculator standard formulas का उपयोग करता है जिससे result हमेशा accurate होता है।
-</p>
-
-<p>
-यह tool businesses के लिए reliable solution है क्योंकि इससे time भी बचता है और calculation errors भी avoid होते हैं।
-</p>
-
-<h2>Shayan Smart Tools के अन्य useful tools</h2>
-
-<p>
-अगर आपको यह tool helpful लगता है तो आप Shayan Smart Tools के दूसरे calculators भी use कर सकते हैं:
-</p>
-
-<ul>
-<li><a href="gst.html">GST Calculator</a></li>
-<li><a href="profit-loss.html">Profit Loss Calculator</a></li>
-<li><a href="simple-interest.html">Simple Interest Calculator</a></li>
-<li><a href="fd-calculator.html">FD Calculator</a></li>
-<li><a href="rd-calculator.html">RD Calculator</a></li>
-</ul>
-
-<p>
-ये सभी tools free हैं और daily financial calculations को आसान बनाने के लिए बनाए गए हैं।
-</p>
-
-<h2>SEO Optimized Online Calculator</h2>
-
-<p>
-Weight to Price Calculator page को SEO best practices के अनुसार बनाया गया है। इसमें relevant keywords जैसे:
-</p>
-
-<ul>
-<li>Weight to Price Calculator</li>
-<li>Gram to Price Calculator</li>
-<li>Kg to Price Calculator</li>
-<li>Quintal Price Calculator</li>
-<li>Online Weight Calculator</li>
-</ul>
-
-<p>
-इन keywords की मदद से यह page Google search results में बेहतर ranking प्राप्त कर सकता है।
-</p>
-
-<h2>Conclusion</h2>
-
-<p>
-Shayan Smart Tools का Weight to Price Calculator एक simple, fast और reliable tool है जो weight-based price calculations को आसान बना देता है। चाहे आप business owner हों, trader हों या student, यह calculator आपके लिए बहुत useful है।
-</p>
-
-<p>
-अगर आपको weight के आधार पर price calculate करना होता है तो यह free online tool आपकी calculations को seconds में complete कर सकता है।
-</p>
-
-<p>
-अभी इस calculator को use करें और manual calculations से छुटकारा पाएं।
-</p>
-
-  </div>
 </body>
 </html>
