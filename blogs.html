@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blogs - Shayan Smart Tools</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background: #f4f6f9;
+  color: #333;
+}
+header {
+  background-color: #1E40AF;
+  color: white;
+  padding: 30px 0;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+main {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.blog-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  color: #333;
+}
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.blog-card .icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.blog-card h3 {
+  margin: 0;
+  font-size: 18px;
+}
+.back-btn {
+  display: inline-block;
+  margin-top: 40px;
+  padding: 12px 25px;
+  background-color: #1E40AF;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+.back-btn:hover {
+  background-color: #3740AF;
+}
+@media (max-width: 600px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+  <header>
+    <h1>Blogs / True Stories</h1>
+  </header>
+
+  <main>
+    <a class="blog-card" href="blog1.html">
+      <div class="icon">📖</div>
+      <h3>True Story: Overcoming Challenges in Life</h3>
+    </a>
+    <a class="blog-card" href="blog2.html">
+      <div class="icon">💡</div>
+      <h3>Inspirational Journey of a Young Entrepreneur</h3>
+    </a>
+    <a class="blog-card" href="blog3.html">
+      <div class="icon">📝</div>
+      <h3>Lessons Learned from Personal Failures</h3>
+    </a>
+    <!-- Aap jitne blogs add karna chahe yahan cards bana sakte ho -->
+  </main>
+
+  <div style="text-align:center;">
+    <a href="index.html" class="back-btn">Back to Home</a>
+  </div>
+</body>
+</html>
