@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Zone Converter Online - Shayan Smart Tools</title>
+<meta name="description" content="Free Time Zone Converter tool. Convert time between different time zones like IST, GMT, EST, JST, AEST easily online.">
+<meta name="keywords" content="Time Zone Converter, Online Time Converter, IST to GMT, EST to IST, World Time, Free Time Tool">
+<meta name="robots" content="index, follow">
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#e9e9e9;
+  margin:0;
+  padding:0;
+  text-align:center;
+}
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+}
+h1{color:#2b7cff;margin-top:20px;font-size:32px;}
+h2{color:#2b7cff;margin-top:25px;font-size:26px;}
+h3{color:#2b7cff;margin-top:15px;font-size:20px;}
+label{
+  display:block;
+  margin:15px 0 5px;
+  font-weight:bold;
+}
+select,input{
+  padding:10px;
+  width:90%;
+  max-width:400px;
+  margin-bottom:15px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+button{
+  background:linear-gradient(180deg,#3a6fe0,#2b5ccf);
+  color:white;
+  border:none;
+  padding:15px 25px;
+  border-radius:15px;
+  font-size:16px;
+  cursor:pointer;
+  margin-top:10px;
+}
+#result{
+  margin-top:20px;
+  padding:15px;
+  background:white;
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  font-size:18px;
+}
+footer{
+  margin-top:40px;
+  padding:20px;
+  background:#222;
+  color:white;
+  font-size:14px;
+}
+footer a{
+  color:#4facfe;
+  text-decoration:none;
+  margin:0 5px;
+}
+footer a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>🕒 Online Time Zone Converter</h1>
+<p>Convert time between different time zones instantly. Accurate & Free tool by <strong>Shayan Smart Tools</strong>.</p>
+
+<h2>Convert Time Easily</h2>
+<label for="from-time">Enter Time:</label>
+<input type="time" id="from-time">
+
+<label for="from-zone">From Time Zone:</label>
+<select id="from-zone">
+  <option value="UTC">UTC</option>
+  <option value="Asia/Kolkata">India (IST)</option>
+  <option value="America/New_York">New York (EST)</option>
+  <option value="Europe/London">London (GMT)</option>
+  <option value="Asia/Tokyo">Tokyo (JST)</option>
+  <option value="Australia/Sydney">Sydney (AEST)</option>
+</select>
+
+<label for="to-zone">To Time Zone:</label>
+<select id="to-zone">
+  <option value="UTC">UTC</option>
+  <option value="Asia/Kolkata">India (IST)</option>
+  <option value="America/New_York">New York (EST)</option>
+  <option value="Europe/London">London (GMT)</option>
+  <option value="Asia/Tokyo">Tokyo (JST)</option>
+  <option value="Australia/Sydney">Sydney (AEST)</option>
+</select>
+
+<button onclick="convertTime()">Convert Time</button>
+
+<div id="result"></div>
+
+<h2>How to Use the Time Zone Converter</h2>
+<h3>Step 1:</h3>
+<p>Enter the time you want to convert in the "Enter Time" field.</p>
+<h3>Step 2:</h3>
+<p>Select the source time zone in "From Time Zone".</p>
+<h3>Step 3:</h3>
+<p>Select the target time zone in "To Time Zone".</p>
+<h3>Step 4:</h3>
+<p>Click "Convert Time" to see the converted time instantly.</p>
+
+<h2>Benefits of Using Our Time Zone Converter</h2>
+<ul style="text-align:left;max-width:600px;margin:auto;">
+<li>✅ Fast and accurate conversions</li>
+<li>✅ Works on mobile and desktop devices</li>
+<li>✅ No registration or login required</li>
+<li>✅ Free and easy to use</li>
+</ul>
+
+<h2>Related Tools</h2>
+<p>
+<a href="emi.html">EMI Calculator</a> | 
+<a href="loan-calculator.html">Loan Calculator</a> | 
+<a href="gst.html">GST Calculator</a> | 
+<a href="currency.html">Currency Converter</a>
+</p>
+
+</div>
+
+<script>
+function convertTime(){
+  let timeInput = document.getElementById("from-time").value;
+  let fromZone = document.getElementById("from-zone").value;
+  let toZone = document.getElementById("to-zone").value;
+  if(!timeInput){
+    alert("Please enter a time!");
+    return;
+  }
+
+  let [hours, minutes] = timeInput.split(":");
+  let date = new Date();
+  date.setUTCHours(hours);
+  date.setUTCMinutes(minutes);
+
+  let options = {timeZone: toZone, hour: '2-digit', minute: '2-digit', hour12: false};
+  let converted = new Intl.DateTimeFormat('en-US', options).format(date);
+
+  document.getElementById("result").innerHTML = `🕒 Time in ${toZone.replace("_"," ")}: <b>${converted}</b>`;
+}
+</script>
+
+<footer>
+<p>© 2026 Shayan Smart Tools | All Rights Reserved | Free Online Tools & Calculators</p>
+<p>
+<a href="about.html">About</a> | 
+<a href="contact.html">Contact</a> | 
+<a href="privacy-policy.html">Privacy Policy</a> | 
+<a href="terms.html">Terms & Conditions</a> | 
+<a href="disclaimer.html">Disclaimer</a>
+</p>
+</footer>
+
+</body>
+  </html>
