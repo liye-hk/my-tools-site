@@ -1,96 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="unit converter, length converter, weight converter, temperature converter, free online converter tool, meter to km, kg to pound, celsius to fahrenheit">
 
-<title>Unit Converter</title>
-<meta name="description" content="Free online unit converter tool. Convert length, weight and temperature instantly.">
-<meta name="keywords" content="unit converter, length converter, weight converter, temperature converter">
-<meta name="robots" content="index, follow">
+<meta name="author" content="Shayan Smart Tools">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta property="og:title" content="Advanced Unit Converter – Free Online Converter Tool">
+
+<meta property="og:description" content="Convert length, weight, temperature, time, area and data units instantly using our free online unit converter tool.">
+
+<meta property="og:type" content="website">
+<title>Advanced Unit Converter</title>
 
 <style>
 
 body{
 font-family:Arial;
-background:#f5f5f5;
+background:#f3f4f6;
 margin:0;
 text-align:center;
+}
+
+.dark{
+background:#111;
+color:white;
 }
 
 .container{
 max-width:500px;
 margin:auto;
-padding:20px;
 background:white;
-margin-top:30px;
+padding:25px;
+margin-top:40px;
 border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+box-shadow:0 0 15px rgba(0,0,0,0.1);
 }
 
-h1{
-margin-bottom:20px;
+.dark .container{
+background:#1f1f1f;
 }
 
 select,input{
 width:100%;
 padding:12px;
 margin:10px 0;
-border:1px solid #ccc;
 border-radius:8px;
+border:1px solid #ccc;
 font-size:16px;
 }
 
 button{
 width:100%;
-padding:14px;
-background:#2563eb;
-color:white;
+padding:12px;
+margin:6px 0;
 border:none;
-border-radius:10px;
-font-size:18px;
+border-radius:8px;
 cursor:pointer;
+font-size:15px;
 }
 
-button:hover{
-background:#1d4ed8;
-}
+.convert{background:#2563eb;color:white;}
+.swap{background:#f59e0b;color:white;}
+.copy{background:#10b981;color:white;}
+.darkbtn{background:#333;color:white;}
 
 .result{
 margin-top:20px;
-font-size:18px;
+font-size:22px;
 font-weight:bold;
 }
 
-.back{
-display:inline-block;
+.history{
 margin-top:20px;
-text-decoration:none;
-color:#2563eb;
-}
-
-/* SEO SECTION STYLE */
-
-.seo{
-max-width:900px;
-margin:40px auto;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+font-size:14px;
 text-align:left;
-line-height:1.7;
-}
-
-.seo h2{
-margin-top:25px;
-}
-
-.seo a{
-color:#2563eb;
-text-decoration:none;
 }
 
 </style>
@@ -100,207 +86,410 @@ text-decoration:none;
 
 <div class="container">
 
-<h1>Unit Converter</h1>
+<h1>Advanced Unit Converter</h1>
 
 <select id="type">
-<option value="length">Length (Meter → Kilometer)</option>
-<option value="weight">Weight (Gram → Kilogram)</option>
-<option value="temperature">Temperature (Celsius → Fahrenheit)</option>
+
+<optgroup label="Length">
+
+<option value="m-km">Meter → Kilometer</option>
+<option value="km-m">Kilometer → Meter</option>
+
+<option value="cm-m">Centimeter → Meter</option>
+<option value="m-cm">Meter → Centimeter</option>
+
+<option value="km-mile">Kilometer → Mile</option>
+<option value="mile-km">Mile → Kilometer</option>
+
+<option value="inch-cm">Inch → Centimeter</option>
+<option value="cm-inch">Centimeter → Inch</option>
+
+<option value="ft-m">Feet → Meter</option>
+<option value="m-ft">Meter → Feet</option>
+
+</optgroup>
+
+
+<optgroup label="Weight">
+
+<option value="g-kg">Gram → Kilogram</option>
+<option value="kg-g">Kilogram → Gram</option>
+
+<option value="kg-pound">Kilogram → Pound</option>
+<option value="pound-kg">Pound → Kilogram</option>
+
+<option value="kg-ton">Kilogram → Ton</option>
+<option value="ton-kg">Ton → Kilogram</option>
+
+</optgroup>
+
+
+<optgroup label="Temperature">
+
+<option value="c-f">Celsius → Fahrenheit</option>
+<option value="f-c">Fahrenheit → Celsius</option>
+
+<option value="c-k">Celsius → Kelvin</option>
+<option value="k-c">Kelvin → Celsius</option>
+
+</optgroup>
+
+
+<optgroup label="Time">
+
+<option value="sec-min">Seconds → Minutes</option>
+<option value="min-sec">Minutes → Seconds</option>
+
+<option value="min-hour">Minutes → Hour</option>
+<option value="hour-min">Hour → Minutes</option>
+
+<option value="hour-sec">Hour → Seconds</option>
+<option value="sec-hour">Seconds → Hour</option>
+
+</optgroup>
+
+
+<optgroup label="Area">
+
+<option value="sqm-sqft">Square Meter → Square Feet</option>
+<option value="sqft-sqm">Square Feet → Square Meter</option>
+
+<option value="acre-hect">Acre → Hectare</option>
+<option value="hect-acre">Hectare → Acre</option>
+
+</optgroup>
+
+
+<optgroup label="Data">
+
+<option value="kb-mb">KB → MB</option>
+<option value="mb-kb">MB → KB</option>
+
+<option value="mb-gb">MB → GB</option>
+<option value="gb-mb">GB → MB</option>
+
+<option value="gb-tb">GB → TB</option>
+<option value="tb-gb">TB → GB</option>
+
+</optgroup>
+
 </select>
 
-<input type="number" id="value" placeholder="Enter Value">
+<input type="number" id="value" placeholder="Enter value">
 
-<button onclick="convert()">Convert</button>
+<button class="convert" onclick="convert()">Convert</button>
+
+<button class="swap" onclick="swap()">Swap</button>
+
+<button class="copy" onclick="copyResult()">Copy Result</button>
+
+<button class="darkbtn" onclick="darkMode()">Dark Mode</button>
 
 <div class="result" id="result"></div>
 
-<a class="back" href="index.html">⬅ Back to Home</a>
+<div class="history" id="history"></div>
 
 </div>
 
 <script>
 
+let historyList=[];
+
 function convert(){
 
 let type=document.getElementById("type").value;
 let val=parseFloat(document.getElementById("value").value);
-let result="";
 
-if(type==="length"){
-result=(val/1000)+" Kilometer";
+if(isNaN(val)) return;
+
+let res="";
+
+
+if(type==="m-km") res=(val/1000).toFixed(4)+" Kilometer";
+if(type==="km-m") res=(val*1000).toFixed(4)+" Meter";
+
+if(type==="cm-m") res=(val/100).toFixed(4)+" Meter";
+if(type==="m-cm") res=(val*100).toFixed(4)+" Centimeter";
+
+if(type==="km-mile") res=(val*0.621371).toFixed(4)+" Mile";
+if(type==="mile-km") res=(val/0.621371).toFixed(4)+" Kilometer";
+
+if(type==="inch-cm") res=(val*2.54).toFixed(4)+" Centimeter";
+if(type==="cm-inch") res=(val/2.54).toFixed(4)+" Inch";
+
+if(type==="ft-m") res=(val*0.3048).toFixed(4)+" Meter";
+if(type==="m-ft") res=(val/0.3048).toFixed(4)+" Feet";
+
+
+if(type==="g-kg") res=(val/1000).toFixed(4)+" Kilogram";
+if(type==="kg-g") res=(val*1000).toFixed(4)+" Gram";
+
+if(type==="kg-pound") res=(val*2.20462).toFixed(4)+" Pound";
+if(type==="pound-kg") res=(val/2.20462).toFixed(4)+" Kilogram";
+
+if(type==="kg-ton") res=(val/1000).toFixed(4)+" Ton";
+if(type==="ton-kg") res=(val*1000).toFixed(4)+" Kilogram";
+
+
+if(type==="c-f") res=((val*9/5)+32).toFixed(2)+" Fahrenheit";
+if(type==="f-c") res=((val-32)*5/9).toFixed(2)+" Celsius";
+
+if(type==="c-k") res=(val+273.15).toFixed(2)+" Kelvin";
+if(type==="k-c") res=(val-273.15).toFixed(2)+" Celsius";
+
+
+if(type==="sec-min") res=(val/60).toFixed(4)+" Minutes";
+if(type==="min-sec") res=(val*60).toFixed(4)+" Seconds";
+
+if(type==="min-hour") res=(val/60).toFixed(4)+" Hour";
+if(type==="hour-min") res=(val*60).toFixed(4)+" Minutes";
+
+if(type==="hour-sec") res=(val*3600).toFixed(4)+" Seconds";
+if(type==="sec-hour") res=(val/3600).toFixed(4)+" Hour";
+
+
+if(type==="sqm-sqft") res=(val*10.7639).toFixed(4)+" Sq Ft";
+if(type==="sqft-sqm") res=(val/10.7639).toFixed(4)+" Sq Meter";
+
+if(type==="acre-hect") res=(val*0.404686).toFixed(4)+" Hectare";
+if(type==="hect-acre") res=(val/0.404686).toFixed(4)+" Acre";
+
+
+if(type==="kb-mb") res=(val/1024).toFixed(4)+" MB";
+if(type==="mb-kb") res=(val*1024).toFixed(4)+" KB";
+
+if(type==="mb-gb") res=(val/1024).toFixed(4)+" GB";
+if(type==="gb-mb") res=(val*1024).toFixed(4)+" MB";
+
+if(type==="gb-tb") res=(val/1024).toFixed(4)+" TB";
+if(type==="tb-gb") res=(val*1024).toFixed(4)+" GB";
+
+
+document.getElementById("result").innerText=res;
+
+historyList.unshift(val+" → "+res);
+
+showHistory();
+
 }
 
-else if(type==="weight"){
-result=(val/1000)+" Kilogram";
+function showHistory(){
+
+let html="<b>History</b><br>";
+
+historyList.slice(0,5).forEach(h=>{
+html+=h+"<br>";
+});
+
+document.getElementById("history").innerHTML=html;
+
 }
 
-else if(type==="temperature"){
-result=(val*9/5)+32+" Fahrenheit";
+function swap(){
+
+let select=document.getElementById("type");
+
+let index=select.selectedIndex;
+
+if(index%2===0){
+select.selectedIndex=index+1;
+}else{
+select.selectedIndex=index-1;
 }
 
-document.getElementById("result").innerHTML=result;
+}
 
+function copyResult(){
+
+let text=document.getElementById("result").innerText;
+
+navigator.clipboard.writeText(text);
+
+alert("Copied");
+
+}
+
+function darkMode(){
+document.body.classList.toggle("dark");
 }
 
 </script>
+<section>
 
-
-
-<!-- SEO CONTENT START -->
-
-<link rel="canonical" href="https://shayandigitalservice.github.io/my-tools-site/unit-converter.html" />
-
-<div class="seo">
-
-<h1>Unit Converter Online – Free Tool to Convert Units Instantly</h1>
+<h1>Free Online Unit Converter Tool</h1>
 
 <p>
-Aaj ke digital world me measurements aur unit conversions bahut important ho gaye hain. Students, engineers, scientists, travelers aur daily life me bhi hume kai baar different units convert karne ki zarurat padti hai. Example ke liye kabhi hume meter ko kilometer me convert karna hota hai, kabhi gram ko kilogram me, aur kabhi temperature ko Celsius se Fahrenheit me convert karna padta hai.
+The Advanced Unit Converter is a powerful and easy-to-use online tool that helps users convert different measurement units instantly. Whether you want to convert length, weight, temperature, time, area, or digital storage units, our converter provides fast and accurate results with just one click.
 </p>
 
 <p>
-Isi problem ko solve karne ke liye hamari website par ek simple aur fast <b>Unit Converter Tool</b> available hai. Ye tool instantly different units convert kar sakta hai bina kisi complicated formula ke.
+Online unit conversion tools have become essential in modern life. Students, engineers, scientists, developers, and everyday users frequently need to convert units when working with measurements. Our free converter simplifies this process by offering an intuitive interface and instant calculations.
 </p>
 
-<p>
-👉 Use the tool here:<br>
-<a href="https://shayandigitalservice.github.io/my-tools-site/">https://shayandigitalservice.github.io/my-tools-site/</a>
-</p>
-
-<h2>Unit Converter Kya Hota Hai?</h2>
+<h2>Why Use Our Online Unit Converter?</h2>
 
 <p>
-Unit converter ek digital tool hota hai jo ek measurement unit ko dusre unit me convert karta hai. Example ke liye agar aapke paas 1000 meter hai to unit converter usse instantly kilometer me convert kar sakta hai.
-</p>
-
-<p>
-Manual calculation karna kabhi kabhi confusing ho sakta hai kyunki har conversion ka alag formula hota hai. Lekin online unit converter tools automatically calculation kar dete hain aur accurate result provide karte hain.
-</p>
-
-<h2>Unit Conversion Kyun Zaroori Hai?</h2>
-
-<p>
-Unit conversion kai situations me useful hota hai. School aur college studies me physics aur mathematics me unit conversion ka use hota hai. Engineering aur science fields me accurate measurements bahut important hote hain. Travel ke time bhi different countries me alag measurement systems use hote hain.
+There are many unit converter tools available on the internet, but our converter stands out because of its simplicity, accuracy, and speed. It supports multiple unit categories and provides reliable conversion results instantly.
 </p>
 
 <ul>
-<li>Education aur studies ke liye</li>
-<li>Engineering calculations ke liye</li>
-<li>Scientific measurements ke liye</li>
-<li>Daily life calculations ke liye</li>
-<li>International travel ke liye</li>
-</ul>
 
-<h2>Hamare Unit Converter Tool Ki Features</h2>
-
-<p>
-Hamari website ka unit converter tool simple aur powerful hai. Ye tool fast calculation karta hai aur mobile friendly design ke saath aata hai.
-</p>
-
-<ul>
-<li>Fast and accurate conversion</li>
-<li>Multiple unit categories</li>
-<li>Simple user interface</li>
-<li>Mobile friendly design</li>
+<li>Fast and accurate conversions</li>
+<li>Completely free to use</li>
+<li>Supports multiple unit categories</li>
+<li>Works on mobile, tablet, and desktop</li>
 <li>No registration required</li>
-<li>Free to use</li>
+<li>Modern and responsive design</li>
+
 </ul>
 
-<h2>Unit Converter Kaise Use Kare</h2>
+<h2>Supported Unit Conversion Categories</h2>
 
 <p>
-Agar aap unit conversion karna chahte hain to ye steps follow karein.
+Our advanced converter supports multiple measurement categories commonly used in daily life, education, science, and engineering.
 </p>
 
-<ul>
-<li>Step 1: Website open kare</li>
-<li>Step 2: Unit Converter tool select kare</li>
-<li>Step 3: Conversion type choose kare</li>
-<li>Step 4: Value enter kare</li>
-<li>Step 5: Convert button par click kare</li>
-</ul>
+<h3>Length Converter</h3>
 
 <p>
-Iske baad tool automatically result show kar dega.
-</p>
-
-<h2>Length Conversion</h2>
-
-<p>
-Length conversion sabse common conversion types me se ek hai. Iska use distance measure karne ke liye hota hai. Example ke liye meter ko kilometer me convert karna ya mile ko kilometer me convert karna.
+The length converter helps you convert distance measurements such as meters, kilometers, centimeters, miles, feet, and inches. This is useful for students, engineers, travelers, and professionals working with measurements.
 </p>
 
 <p>
-Hamare tool me length conversions easily available hain.
+Examples of length conversions include:
 </p>
 
 <ul>
 <li>Meter to Kilometer</li>
-<li>Kilometer to Meter</li>
-<li>Mile to Kilometer</li>
 <li>Kilometer to Mile</li>
+<li>Centimeter to Meter</li>
+<li>Feet to Meter</li>
+<li>Inch to Centimeter</li>
 </ul>
 
-<h2>Weight Conversion</h2>
+<h3>Weight Converter</h3>
 
 <p>
-Weight conversion bhi daily life me bahut use hota hai. Grocery shopping, cooking aur scientific experiments me weight measurements important hote hain.
+The weight converter allows users to convert mass units such as grams, kilograms, pounds, and tons. This is useful in cooking, science experiments, and international trade.
 </p>
 
 <ul>
 <li>Gram to Kilogram</li>
-<li>Kilogram to Gram</li>
 <li>Kilogram to Pound</li>
 <li>Pound to Kilogram</li>
+<li>Kilogram to Ton</li>
 </ul>
 
-<h2>Temperature Conversion</h2>
+<h3>Temperature Converter</h3>
 
 <p>
-Temperature conversion weather reports aur science studies me important hota hai. Different countries me temperature measurement systems alag hote hain.
+Temperature conversion is essential for weather reports, scientific research, and cooking. Our converter supports the most commonly used temperature scales.
 </p>
 
 <ul>
 <li>Celsius to Fahrenheit</li>
 <li>Fahrenheit to Celsius</li>
+<li>Celsius to Kelvin</li>
+<li>Kelvin to Celsius</li>
 </ul>
 
-<h2>Online Unit Converter Use Karne Ke Benefits</h2>
+<h3>Time Converter</h3>
 
 <p>
-Online unit converter tools use karne ke kai advantages hain. Sabse bada advantage ye hai ki ye time save karte hain aur accurate results provide karte hain.
+Time conversion is helpful for scheduling, calculations, and programming tasks. Our tool allows quick conversions between seconds, minutes, and hours.
 </p>
 
 <ul>
-<li>Instant calculations</li>
-<li>No mathematical formulas required</li>
-<li>Easy to use</li>
-<li>Accessible from any device</li>
-<li>Free tools available</li>
+<li>Seconds to Minutes</li>
+<li>Minutes to Hours</li>
+<li>Hours to Seconds</li>
 </ul>
 
-<h2>Students Ke Liye Useful Tool</h2>
+<h3>Area Converter</h3>
 
 <p>
-Students ko mathematics aur physics me frequently unit conversions karni padti hain. Manual calculations karne me mistakes ho sakti hain. Isliye online unit converter students ke liye ek perfect tool hai.
+Area conversions are commonly used in real estate, land measurement, and construction projects. Our converter supports units such as square meters, square feet, acres, and hectares.
 </p>
 
-<h2>Professionals Ke Liye Useful</h2>
+<ul>
+<li>Square Meter to Square Feet</li>
+<li>Square Feet to Square Meter</li>
+<li>Acre to Hectare</li>
+<li>Hectare to Acre</li>
+</ul>
+
+<h3>Data Storage Converter</h3>
 
 <p>
-Engineers, scientists aur professionals bhi unit converter tools ka use karte hain. Accurate measurements aur fast calculations professional work me bahut important hote hain.
+In the digital world, data storage conversions are very common. Our converter helps convert between kilobytes, megabytes, gigabytes, and terabytes.
 </p>
 
-<h2>Mobile Friendly Tool</h2>
+<ul>
+<li>KB to MB</li>
+<li>MB to GB</li>
+<li>GB to TB</li>
+<li>TB to GB</li>
+</ul>
+
+<h2>How to Use the Unit Converter</h2>
 
 <p>
-Hamari website ka unit converter tool fully responsive hai. Aap ise mobile phone, tablet aur desktop sab devices par use kar sakte hain.
+Using our converter is extremely simple and requires only a few steps.
 </p>
 
-<h2>Hamari Website Par Aur Bhi Useful Tools</h2>
+<ol>
+
+<li>Select the conversion type from the dropdown menu.</li>
+<li>Enter the value you want to convert.</li>
+<li>Click the convert button.</li>
+<li>The result will appear instantly on the screen.</li>
+
+</ol>
 
 <p>
-Sirf unit converter hi nahi, hamari website par aur bhi bahut saare useful online tools available hain jo daily digital tasks ko easy bana dete hain.
+You can also use the swap button to quickly reverse the conversion direction without selecting another option.
+</p>
+
+<h2>Benefits of Online Conversion Tools</h2>
+
+<p>
+Online tools save time and eliminate the need for manual calculations. Instead of remembering complex formulas, users can simply input a value and get an instant result.
+</p>
+
+<p>
+Some major advantages include:
+</p>
+
+<ul>
+
+<li>Instant and accurate results</li>
+<li>No installation required</li>
+<li>Accessible from any device</li>
+<li>Simple user interface</li>
+
+</ul>
+
+<h2>Who Can Use This Tool?</h2>
+
+<p>
+Our online converter is useful for many types of users.
+</p>
+
+<ul>
+
+<li>Students and teachers</li>
+<li>Engineers and scientists</li>
+<li>Travelers</li>
+<li>Developers and programmers</li>
+<li>Researchers</li>
+<li>Everyday users</li>
+
+</ul>
+
+<h2>Internal Tools You May Like</h2>
+
+<p>
+If you find this tool helpful, you may also like our other free online tools.
 </p>
 
 <ul>
@@ -311,51 +500,22 @@ Sirf unit converter hi nahi, hamari website par aur bhi bahut saare useful onlin
 <li><a href="percentage.html">Percentage Calculator</a></li>
 <li><a href="currency.html">Currency Converter</a></li>
 </ul>
+<h2>Accuracy and Disclaimer</h2>
 
 <p>
-👉 Explore all tools here:<br>
-<a href="https://shayandigitalservice.github.io/my-tools-site/">Shayan Smart Tools</a>
+We strive to provide accurate conversion results based on internationally accepted measurement standards. However, the results should be used for general informational purposes only. For critical scientific or engineering calculations, users should verify results using professional tools.
 </p>
 
-<h2>SEO Friendly Online Tools</h2>
+<h2>Copyright Notice</h2>
 
 <p>
-Online tools websites aaj kal Google search me bahut popular ho rahi hain. Agar website par useful tools aur high quality content ho to Google search results me ranking improve hoti hai.
-</p>
-
-<p>
-Isliye hamari website par multiple useful tools available hain jo users ko real value provide karte hain.
-</p>
-
-<h2>Frequently Asked Questions</h2>
-
-<p><b>Q1: Kya unit converter free hai?</b><br>
-Haan, hamari website par available unit converter tool completely free hai.</p>
-
-<p><b>Q2: Kya ye tool mobile par work karta hai?</b><br>
-Haan, ye tool mobile friendly hai aur smartphone par bhi easily use kiya ja sakta hai.</p>
-
-<p><b>Q3: Kya conversion accurate hota hai?</b><br>
-Haan, online unit converter accurate formulas use karta hai jisse correct result milta hai.</p>
-
-<h2>Conclusion</h2>
-
-<p>
-Unit converter ek simple aur powerful tool hai jo daily calculations ko easy bana deta hai. Agar aapko fast aur accurate unit conversions chahiye to hamari website ka free unit converter tool try karein.
+All content, design, and tools available on this website are the intellectual property of Shayan Smart Tools. Unauthorized copying, reproduction, or redistribution of the content without permission is strictly prohibited.
 </p>
 
 <p>
-👉 Try the tool now:<br>
-<a href="https://shayandigitalservice.github.io/my-tools-site/">Use Unit Converter</a>
+© 2026 Shayan Smart Tools. All Rights Reserved.
 </p>
 
-</div>
-
-<footer>
-© 2026 Shayan Smart Tools – All Rights Reserved
-</footer>
-
-<!-- SEO CONTENT END -->
-
+</section>
 </body>
-</html>
+  </html>
