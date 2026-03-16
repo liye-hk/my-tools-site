@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold Loan Calculator 2026 – Shayan Digital Service</title>
+<meta name="description" content="Calculate your Gold Loan eligibility and EMI in India 2026. Free Gold Loan Calculator with gold weight, price, LTV, and tenure.">
+<meta name="keywords" content="gold loan calculator, gold loan EMI, gold LTV, gold price calculator, gold loan India, financial planning">
+<link rel="canonical" href="https://shayandigitalservice.github.io/my-tools-site/gold-loan-calculator.html">
+
+<style>
+body{font-family:Arial;background:#eef2f7;margin:0;padding:20px;}
+.container{max-width:600px;margin:auto;background:white;padding:25px;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,0.1);}
+h1{text-align:center;}
+label{font-weight:bold;}
+input{width:100%;padding:10px;margin-top:6px;margin-bottom:15px;border:1px solid #ccc;border-radius:6px;}
+button{width:100%;padding:12px;background:#007bff;color:white;border:none;font-size:16px;border-radius:6px;cursor:pointer;}
+button:hover{background:#0056b3;}
+.result{margin-top:20px;background:#f6f8fb;padding:15px;border-radius:6px;}
+.suggestion{margin-top:20px;background:#eaf7ea;padding:15px;border-radius:6px;}
+footer{margin-top:20px;text-align:center;color:#555;}
+</style>
+
+<!-- Copy Protection -->
+<script>
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('selectstart', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('cut', e => e.preventDefault());
+</script>
+
+</head>
+<body>
+
+<div class="container">
+<h1>Gold Loan Calculator 2026</h1>
+
+<label>Gold Weight (grams)</label>
+<input type="number" id="goldWeight">
+
+<label>Gold Price per Gram (₹)</label>
+<input type="number" id="goldPrice">
+
+<label>Loan-to-Value (LTV %) </label>
+<input type="number" id="ltv">
+
+<label>Loan Tenure (Months)</label>
+<input type="number" id="tenure">
+
+<button onclick="calculateGoldLoan()">Calculate Loan</button>
+
+<div class="result" id="result"></div>
+<div class="suggestion" id="suggestion"></div>
+
+<!-- SEO Content Starts -->
+<section class="seo-content">
+
+<h2>Gold Loan Calculator 2026 – Know Your Gold Loan Eligibility</h2>
+<p>
+The Gold Loan Calculator 2026 helps you calculate the maximum loan amount you can get against your gold and your EMI in India. 
+Simply enter the weight of gold, current gold price, loan-to-value ratio, and tenure to estimate your loan accurately.
+</p>
+
+<h2>How to Use the Gold Loan Calculator</h2>
+<ul>
+<li>Enter your gold weight in grams.</li>
+<li>Provide the current gold price per gram.</li>
+<li>Enter the Loan-to-Value (LTV %) offered by the lender.</li>
+<li>Specify the loan tenure in months.</li>
+<li>Click “Calculate Loan” to view maximum loan eligibility and EMI.</li>
+</ul>
+
+<h2>Benefits of Using a Gold Loan Calculator</h2>
+<ul>
+<li>Quick estimation of gold loan eligibility</li>
+<li>Plan EMIs and repayment schedule efficiently</li>
+<li>Compare LTV options from different lenders</li>
+<li>Free and easy-to-use online tool</li>
+</ul>
+
+<h2>FAQs</h2>
+<h3>1. What is Loan-to-Value (LTV)?</h3>
+<p>LTV is the percentage of gold value that a lender is willing to provide as a loan. For example, 75% LTV means if your gold is worth ₹100,000, you can get ₹75,000 as loan.</p>
+
+<h3>2. Can I use this calculator for multiple gold items?</h3>
+<p>Yes, sum up the total weight and average price per gram to get an overall estimate.</p>
+
+<h3>3. How is EMI calculated for gold loans?</h3>
+<p>EMI is calculated using standard interest formula considering principal (loan amount), interest rate, and tenure in months.</p>
+
+<h2>Conclusion</h2>
+<p>
+Using a Gold Loan Calculator ensures that you understand your maximum borrowing capacity and can plan repayment efficiently. 
+It helps avoid over-borrowing and makes financial planning simple for gold-backed loans.
+</p>
+
+</section>
+
+</div>
+
+<footer>
+&copy; 2026 Shayan Digital Service. All Rights Reserved.
+</footer>
+
+<script>
+function calculateGoldLoan(){
+  let weight = parseFloat(document.getElementById("goldWeight").value)||0;
+  let price = parseFloat(document.getElementById("goldPrice").value)||0;
+  let ltv = parseFloat(document.getElementById("ltv").value)||0;
+  let tenure = parseFloat(document.getElementById("tenure").value)||0;
+
+  let goldValue = weight*price;
+  let loanAmount = goldValue*(ltv/100);
+
+  // Simple EMI calculation assuming monthly interest 1% (adjustable)
+  let monthlyInterest = 1/100;
+  let emi = (loanAmount*monthlyInterest*Math.pow(1+monthlyInterest,tenure))/(Math.pow(1+monthlyInterest,tenure)-1);
+
+  document.getElementById("result").innerHTML=
+    "<b>Maximum Loan Amount:</b> ₹"+loanAmount.toFixed(2)+"<br>"+
+    "<b>Estimated EMI:</b> ₹"+emi.toFixed(2);
+
+  document.getElementById("suggestion").innerHTML=
+    "<b>Tip:</b> Check LTV limits and tenure options with your lender for optimal gold loan planning.";
+}
+</script>
+
+</body>
+</html>
