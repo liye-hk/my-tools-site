@@ -1,33 +1,44 @@
 <!DOCTYPE html><html>
 <head>
 <meta charset="UTF-8">
-<title>Shop Bill Generator</title><script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Shop Bill Generator</title><script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script><style>
 
 body{
-font-family:monospace;
+font-family:Arial;
 background:#f4f4f4;
-text-align:center;
+margin:0;
+padding:10px;
 }
 
 .container{
 max-width:500px;
 margin:auto;
 background:white;
-padding:20px;
-margin-top:20px;
+padding:15px;
 border-radius:10px;
 }
 
+h2{
+text-align:center;
+}
+
 input{
-width:90%;
-padding:8px;
-margin:5px;
+width:100%;
+padding:10px;
+margin:6px 0;
+border-radius:6px;
+border:1px solid #ccc;
 }
 
 button{
-padding:8px 12px;
-margin:5px;
-cursor:pointer;
+width:100%;
+padding:10px;
+margin:6px 0;
+border:none;
+border-radius:6px;
+background:#2563eb;
+color:white;
+font-size:15px;
 }
 
 table{
@@ -37,23 +48,27 @@ border-collapse:collapse;
 }
 
 th,td{
-border:1px dashed #000;
-padding:6px;
+border:1px solid #000;
+padding:8px;
 font-size:14px;
+text-align:center;
 }
 
 .bill{
-text-align:left;
 margin-top:20px;
 }
 
-</style></head><body><div class="container"><h2>🧾 Bill Generator</h2><!-- Shop Details --><input id="shop" placeholder="Shop Name">
-<input id="address" placeholder="Address">
-<input id="phone" placeholder="Phone"><button onclick="saveShop()">Save Shop</button>
+.totalRow td{
+font-weight:bold;
+}
 
-<br><input id="customer" placeholder="Customer Name"><!-- Item --><input id="product" placeholder="Product Name">
+</style></head><body><div class="container"><h2>🧾 Bill Generator</h2><input id="shop" placeholder="Shop Name">
+<input id="address" placeholder="Address">
+<input id="phone" placeholder="Phone"><button onclick="saveShop()">Save Shop Details</button>
+
+<input id="customer" placeholder="Customer Name"><input id="product" placeholder="Product Name">
 <input id="qty" type="number" placeholder="Qty">
-<input id="price" type="number" placeholder="Price"><button onclick="addItem()">Add</button>
+<input id="price" type="number" placeholder="Price"><button onclick="addItem()">Add Item</button>
 
 <table id="table">
 <tr>
@@ -64,10 +79,10 @@ margin-top:20px;
 <th>Total</th>
 </tr>
 </table><button onclick="generateBill()">Generate Bill</button>
-<button onclick="downloadPDF()">PDF</button>
-<button onclick="sendWhatsApp()">WhatsApp</button>
+<button onclick="downloadPDF()">Download PDF</button>
+<button onclick="sendWhatsApp()">Send WhatsApp</button>
 
-<div id="bill" class="bill"></div><br><button onclick="downloadHistory()">Download History</button>
+<div id="bill" class="bill"></div><button onclick="downloadHistory()">Download History</button>
 
 <div id="totalDay"></div></div><script>
 
@@ -94,6 +109,11 @@ function addItem(){
 let p=product.value;
 let q=+qty.value;
 let pr=+price.value;
+
+if(!p || !q || !pr){
+alert("Fill all fields");
+return;
+}
 
 let t=q*pr;
 
@@ -130,7 +150,7 @@ Customer: ${customer.value}
 
 <hr>
 
-<table style="width:100%">
+<table>
 <tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>
 `;
 
@@ -145,10 +165,13 @@ html+=`
 </tr>`;
 });
 
-html+=`</table>
-
-<hr>
-<h3>Grand Total: ₹${total}</h3>
+/* GRAND TOTAL ROW */
+html+=`
+<tr class="totalRow">
+<td colspan="4">Grand Total</td>
+<td>₹${total}</td>
+</tr>
+</table>
 `;
 
 bill.innerHTML=html;
@@ -157,10 +180,7 @@ bill.innerHTML=html;
 
 let history=JSON.parse(localStorage.getItem("history"))||[];
 
-history.push({
-total:total,
-date:date
-});
+history.push({total:total,date:date});
 
 localStorage.setItem("history",JSON.stringify(history));
 
@@ -183,9 +203,10 @@ let text=bill.innerText;
 let url="https://wa.me/?text="+encodeURIComponent(text);
 
 window.open(url);
+
 }
 
-/* HISTORY DOWNLOAD */
+/* HISTORY */
 
 function downloadHistory(){
 
@@ -206,7 +227,7 @@ a.click();
 
 }
 
-/* TOTAL DAY SALE */
+/* DAILY SALE */
 
 function showTotalDay(){
 
@@ -228,6 +249,5 @@ totalDay.innerHTML="<b>Today's Sale: ₹"+sum+"</b>";
 
 showTotalDay();
 
-</script>
-</body>
+</script></body>
 </html>
