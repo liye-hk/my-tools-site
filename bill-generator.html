@@ -1,0 +1,366 @@
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Ultimate Bill Generator</title><meta name="description" content="Free billing software for shopkeepers with product list, saved shop details, GST, sales history and reports."><script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><style>
+
+body{
+font-family:Arial;
+background:#f3f4f6;
+margin:0;
+text-align:center;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+background:white;
+padding:25px;
+margin-top:40px;
+border-radius:10px;
+box-shadow:0 0 12px rgba(0,0,0,0.1);
+}
+
+input,select{
+padding:10px;
+margin:6px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+padding:10px 15px;
+margin:5px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.add{background:#2563eb;color:white;}
+.save{background:#059669;color:white;}
+.generate{background:#16a34a;color:white;}
+.print{background:#f59e0b;color:white;}
+.pdf{background:#7c3aed;color:white;}
+.delete{background:#dc2626;color:white;}
+
+table{
+width:100%;
+margin-top:20px;
+border-collapse:collapse;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px;
+}
+
+canvas{
+margin-top:30px;
+}
+
+</style></head><body><div class="container"><h1>Ultimate Bill Generator</h1><h3>Shop Details</h3><input type="text" id="shopName" placeholder="Shop Name">
+<input type="text" id="shopAddress" placeholder="Shop Address"><button class="save" onclick="saveShop()">Save Shop Details</button>
+
+<br><input type="text" id="customer" placeholder="Customer Name">
+<input type="text" id="billno" placeholder="Bill Number"><h3>Product</h3><select id="productSelect" onchange="loadProduct()">
+<option value="">Select Saved Product</option>
+</select><br><input type="text" id="item" placeholder="Item Name">
+<input type="number" id="price" placeholder="Price"><button class="save" onclick="saveProduct()">Save Product</button>
+
+<br><input type="number" id="qty" placeholder="Qty"><button class="add" onclick="addItem()">Add Item</button>
+
+<table id="billTable"><tr>
+<th>Item</th>
+<th>Qty</th>
+<th>Price</th>
+<th>Total</th>
+<th>Action</th>
+</tr></table><br><input type="number" id="gst" placeholder="GST %"><br><button class="generate" onclick="generateBill()">Generate Bill</button>
+<button class="print" onclick="window.print()">Print</button>
+<button class="pdf" onclick="downloadPDF()">PDF</button>
+
+<div id="bill"></div><br><input type="number" id="cash" placeholder="Customer Cash">
+<button onclick="calculateChange()">Calculate Change</button><div id="change"></div><h3>Sales History</h3><div id="history"></div><button onclick="downloadHistory()">Download History</button>
+
+<canvas id="salesChart"></canvas>
+
+</div><script>
+
+let items=[];
+let lastTotal=0;
+
+let billCounter=localStorage.getItem("billCounter")||1;
+document.getElementById("billno").value=billCounter;
+
+/* SHOP SAVE */
+
+function saveShop(){
+
+localStorage.setItem("shopName",document.getElementById("shopName").value);
+localStorage.setItem("shopAddress",document.getElementById("shopAddress").value);
+
+alert("Shop details saved");
+
+}
+
+document.getElementById("shopName").value=localStorage.getItem("shopName")||"";
+document.getElementById("shopAddress").value=localStorage.getItem("shopAddress")||"";
+
+/* PRODUCT SAVE */
+
+function saveProduct(){
+
+let name=document.getElementById("item").value;
+let price=document.getElementById("price").value;
+
+let products=JSON.parse(localStorage.getItem("products"))||[];
+
+products.push({name,price});
+
+localStorage.setItem("products",JSON.stringify(products));
+
+loadProducts();
+
+}
+
+function loadProducts(){
+
+let products=JSON.parse(localStorage.getItem("products"))||[];
+
+let select=document.getElementById("productSelect");
+
+select.innerHTML='<option value="">Select Saved Product</option>';
+
+products.forEach((p,i)=>{
+
+let opt=document.createElement("option");
+
+opt.value=i;
+opt.text=p.name;
+
+select.appendChild(opt);
+
+});
+
+}
+
+function loadProduct(){
+
+let products=JSON.parse(localStorage.getItem("products"))||[];
+
+let i=document.getElementById("productSelect").value;
+
+if(i==="") return;
+
+document.getElementById("item").value=products[i].name;
+document.getElementById("price").value=products[i].price;
+
+}
+
+loadProducts();
+
+/* ADD ITEM */
+
+function addItem(){
+
+let item=document.getElementById("item").value;
+let qty=parseFloat(document.getElementById("qty").value);
+let price=parseFloat(document.getElementById("price").value);
+
+let total=qty*price;
+
+items.push({item,qty,price,total});
+
+let table=document.getElementById("billTable");
+
+let row=table.insertRow();
+
+let index=items.length-1;
+
+row.insertCell(0).innerText=item;
+row.insertCell(1).innerText=qty;
+row.insertCell(2).innerText="₹"+price;
+row.insertCell(3).innerText="₹"+total;
+
+let btn=document.createElement("button");
+
+btn.innerText="Delete";
+btn.className="delete";
+
+btn.onclick=function(){
+
+table.deleteRow(row.rowIndex);
+
+items.splice(index,1);
+
+};
+
+row.insertCell(4).appendChild(btn);
+
+}
+
+/* BILL */
+
+function generateBill(){
+
+let subtotal=0;
+
+items.forEach(i=> subtotal+=i.total);
+
+let gstPercent=parseFloat(document.getElementById("gst").value)||0;
+
+let gstAmount=subtotal*(gstPercent/100);
+
+let grandTotal=subtotal+gstAmount;
+
+lastTotal=grandTotal;
+
+let shop=localStorage.getItem("shopName")||"";
+let address=localStorage.getItem("shopAddress")||"";
+
+let customer=document.getElementById("customer").value;
+
+let billno=document.getElementById("billno").value;
+
+let now=new Date();
+
+let dt=now.toLocaleDateString()+" "+now.toLocaleTimeString();
+
+document.getElementById("bill").innerHTML=`
+
+<hr>
+
+<b>${shop}</b><br>
+${address}<br><br>
+
+Customer: ${customer}<br>
+Bill No: ${billno}<br>
+Date: ${dt}
+
+<hr>
+
+Subtotal ₹${subtotal.toFixed(2)}<br>
+GST ₹${gstAmount.toFixed(2)}
+
+<h3>Total ₹${grandTotal.toFixed(2)}</h3>
+
+`;
+
+saveHistory(grandTotal,dt);
+
+billCounter++;
+
+localStorage.setItem("billCounter",billCounter);
+
+updateChart();
+
+}
+
+/* CHANGE */
+
+function calculateChange(){
+
+let cash=parseFloat(document.getElementById("cash").value)||0;
+
+let change=cash-lastTotal;
+
+document.getElementById("change").innerHTML="Return ₹"+change.toFixed(2);
+
+}
+
+/* PDF */
+
+function downloadPDF(){
+
+let element=document.getElementById("bill");
+
+html2pdf().from(element).save("bill.pdf");
+
+}
+
+/* HISTORY */
+
+function saveHistory(total,dt){
+
+let history=JSON.parse(localStorage.getItem("salesHistory"))||[];
+
+history.unshift({amount:total,datetime:dt});
+
+localStorage.setItem("salesHistory",JSON.stringify(history));
+
+showHistory();
+
+}
+
+function showHistory(){
+
+let history=JSON.parse(localStorage.getItem("salesHistory"))||[];
+
+let html="";
+
+history.slice(0,5).forEach(h=>{
+
+html+="₹"+h.amount+" | "+h.datetime+"<br>";
+
+});
+
+document.getElementById("history").innerHTML=html;
+
+}
+
+/* DOWNLOAD */
+
+function downloadHistory(){
+
+let history=JSON.parse(localStorage.getItem("salesHistory"))||[];
+
+let csv="Amount,Date\n";
+
+history.forEach(h=>{
+
+csv+=h.amount+","+h.datetime+"\n";
+
+});
+
+let blob=new Blob([csv],{type:"text/csv"});
+
+let link=document.createElement("a");
+
+link.href=URL.createObjectURL(blob);
+
+link.download="sales-history.csv";
+
+link.click();
+
+}
+
+/* GRAPH */
+
+function updateChart(){
+
+let history=JSON.parse(localStorage.getItem("salesHistory"))||[];
+
+let labels=history.slice(0,7).map(h=>h.datetime);
+
+let data=history.slice(0,7).map(h=>h.amount);
+
+new Chart(document.getElementById("salesChart"),{
+
+type:'bar',
+
+data:{
+labels:labels,
+datasets:[{
+label:'Sales ₹',
+data:data
+}]
+}
+
+});
+
+}
+
+showHistory();
+updateChart();
+
+</script>
+</body>
+</html>
