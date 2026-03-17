@@ -5,62 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shop Bill Generator</title>
 <style>
-body{
-font-family:Arial;
-background:#f4f4f4;
-margin:0;
-padding:10px;
-}
-.container{
-max-width:500px;
-margin:auto;
-background:white;
-padding:15px;
-border-radius:10px;
-}
+body{font-family:Arial;background:#f4f4f4;margin:0;padding:10px;}
+.container{max-width:500px;margin:auto;background:white;padding:15px;border-radius:10px;}
 h2{text-align:center;}
-input, select{
-width:100%;
-padding:10px;
-margin:6px 0;
-border-radius:6px;
-border:1px solid #ccc;
-}
-button{
-width:100%;
-padding:10px;
-margin:6px 0;
-border:none;
-border-radius:6px;
-background:#2563eb;
-color:white;
-font-size:15px;
-}
-table{
-width:100%;
-margin-top:10px;
-border-collapse:collapse;
-}
-th,td{
-border:1px solid #000;
-padding:8px;
-font-size:14px;
-text-align:center;
-}
+input, select{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:1px solid #ccc;}
+button{width:100%;padding:10px;margin:6px 0;border:none;border-radius:6px;background:#2563eb;color:white;font-size:15px;}
+table{width:100%;margin-top:10px;border-collapse:collapse;}
+th,td{border:1px solid #000;padding:8px;font-size:14px;text-align:center;}
 .totalRow td{font-weight:bold;}
 .bill{margin-top:20px;}
+.invoice{float:right;}
+.clear{clear:both;}
+@media screen and (max-width:600px){
+table th, table td{padding:6px;font-size:12px;}
+button{font-size:13px;padding:8px;}
+}
 </style>
 </head>
 <body>
 <div class="container">
 <h2>🧾 Bill Generator</h2>
 
-<!-- Existing Inputs -->
+<!-- Shop Details -->
 <input id="shop" placeholder="Shop Name">
 <input id="address" placeholder="Address">
 <input id="phone" placeholder="Phone">
 <button onclick="saveShop()">Save Shop Details</button>
 
+<!-- Customer & Items -->
 <input id="customer" placeholder="Customer Name">
 <input id="product" placeholder="Product Name">
 <input id="qty" type="number" placeholder="Qty">
@@ -68,26 +40,31 @@ text-align:center;
 <button onclick="addItem()">Add Item</button>
 
 <table id="table">
-<tr>
-<th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th>
-</tr>
+<tr><th>No</th><th>Product</th><th>Qty</th><th>Price</th><th>Total</th></tr>
 </table>
 
+<!-- Generate & Print -->
 <button onclick="generateBill()">Generate Bill</button>
+<select id="printMode">
+<option value="A4">Print A4</option>
+<option value="Receipt" selected>Print Receipt</option>
+<option value="Custom">Custom Width</option>
+</select>
 <button onclick="printBill()">Print Bill</button>
 <button onclick="sendWhatsApp()">Send WhatsApp</button>
 
+<!-- Bill Display -->
 <div id="bill" class="bill"></div>
 <button onclick="downloadHistory()">Download History</button>
 <div id="totalDay"></div>
-
 </div>
 
 <script>
-// ========== Existing Code ==========
+// ================= Existing Core Code =================
 let items=[];
 let total=0;
 
+/* SAVE SHOP */
 function saveShop(){
 localStorage.setItem("shop",shop.value);
 localStorage.setItem("address",address.value);
@@ -98,6 +75,7 @@ shop.value=localStorage.getItem("shop")||"";
 address.value=localStorage.getItem("address")||"";
 phone.value=localStorage.getItem("phone")||"";
 
+/* ADD ITEM */
 function addItem(){
 let p=product.value;
 let q=+qty.value;
@@ -114,78 +92,7 @@ row.insertCell(4).innerText=t;
 product.value=""; qty.value=""; price.value="";
 }
 
-function generateBill(){
-total=0; items.forEach(i=> total+=i.t);
-let date=new Date().toLocaleString();
-let html=`
-<b>${shop.value}</b><br>
-${address.value}<br>
-Phone: ${phone.value}<br>
-Date: ${date}<br>
-Customer: ${customer.value}
-<hr>
-<table>
-<tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>`;
-items.forEach((i,index)=>{
-html+=`<tr>
-<td>${index+1}</td>
-<td>${i.p}</td>
-<td>${i.q}</td>
-<td>${i.pr}</td>
-<td>${i.t}</td>
-</tr>`;
-});
-html+=`<tr class="totalRow">
-<td colspan="4">Grand Total</td>
-<td>₹${total}</td>
-</tr>
-</table>`;
-bill.innerHTML=html;
-
-/* Save history */
-let history=JSON.parse(localStorage.getItem("history"))||[];
-history.push({total:total,date:date});
-localStorage.setItem("history",JSON.stringify(history));
-showTotalDay();
-}
-
-function printBill(){
-let content = document.getElementById("bill").innerHTML;
-let win = window.open('', '', 'width=400,height=600');
-win.document.write(`<html><head><title>Print Bill</title>
-<style>body{font-family:monospace;padding:10px;}table{width:100%;border-collapse:collapse;}td,th{border:1px solid #000;padding:5px;text-align:center;}.totalRow td{font-weight:bold;}</style>
-</head><body>${content}</body></html>`);
-win.document.close();win.print();
-}
-
-function sendWhatsApp(){
-let text = "🧾 BILL RECEIPT\n\n" + bill.innerText;
-let url = "https://wa.me/?text=" + encodeURIComponent(text);
-window.open(url);
-}
-
-function downloadHistory(){
-let history=JSON.parse(localStorage.getItem("history"))||[];
-let csv="Total,Date\n";
-history.forEach(h=>{csv+=h.total+","+h.date+"\n";});
-let blob=new Blob([csv]);
-let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download="history.csv";
-a.click();
-}
-
-function showTotalDay(){
-let history=JSON.parse(localStorage.getItem("history"))||[];
-let today=new Date().toLocaleDateString();
-let sum=0;
-history.forEach(h=>{if(h.date.includes(today)){sum+=h.total;}});
-totalDay.innerHTML="<b>Today's Sale: ₹"+sum+"</b>";
-}
-showTotalDay();
-
-// ========== ADDITIONAL FEATURES ==========
-/* Payment Mode */
+/* PAYMENT MODE */
 let paymentModes=["Cash","UPI","Card"];
 let paymentSelect=document.createElement("select");
 paymentSelect.id="payment";
@@ -197,7 +104,7 @@ paymentSelect.appendChild(option);
 });
 document.querySelector(".container").insertBefore(paymentSelect, document.getElementById("bill"));
 
-/* Auto Invoice */
+/* AUTO INVOICE */
 let invoiceCounter = localStorage.getItem("invoiceCounter")||1;
 function getInvoiceNumber(){
 let num = invoiceCounter;
@@ -206,40 +113,93 @@ localStorage.setItem("invoiceCounter", invoiceCounter);
 return num;
 }
 
-/* Extended Generate Bill */
+/* EXTENDED GENERATE BILL */
 let originalGenerateBill = generateBill;
-generateBill=function(){
+generateBill = function(){
 let invoiceNo = getInvoiceNumber();
-originalGenerateBill();
-let billDiv=document.getElementById("bill");
-let paymentMode = document.getElementById("payment").value;
-billDiv.innerHTML=`<b>Invoice No: ${invoiceNo}</b><br>Payment Mode: ${paymentMode}<br>`+billDiv.innerHTML;
+total=0; items.forEach(i=> total+=i.t);
+let date = new Date().toISOString();
 
-// Save invoice/payment in history
-let lastBillHistory=JSON.parse(localStorage.getItem("history"))||[];
-lastBillHistory[lastBillHistory.length-1].invoice = invoiceNo;
-lastBillHistory[lastBillHistory.length-1].payment = paymentMode;
-localStorage.setItem("history",JSON.stringify(lastBillHistory));
+let paymentMode = document.getElementById("payment").value;
+
+let html=`<div class="invoice">Invoice No: ${invoiceNo}</div><div class="clear"></div>
+<b>${shop.value}</b><br>
+${address.value}<br>
+Phone: ${phone.value}<br>
+Date: ${new Date(date).toLocaleString()}<br>
+Customer: ${customer.value}<br>
+Payment Mode: ${paymentMode}
+<hr>
+<table>
+<tr><th>No</th><th>Item</th><th>Qty</th><th>Price</th><th>Total</th></tr>
+`;
+
+items.forEach((i,index)=>{
+html+=`<tr>
+<td>${index+1}</td>
+<td>${i.p}</td>
+<td>${i.q}</td>
+<td>${i.pr}</td>
+<td>${i.t}</td>
+</tr>`;
+});
+
+html+=`<tr class="totalRow">
+<td colspan="4">Grand Total</td>
+<td>₹${total}</td>
+</tr>
+</table>`;
+
+bill.innerHTML = html;
+
+// Save history
+let history=JSON.parse(localStorage.getItem("history"))||[];
+history.push({total:total,date:date,invoice:invoiceNo,payment:paymentMode});
+localStorage.setItem("history",JSON.stringify(history));
 
 updateSaleReports();
 }
 
-/* Extended Print */
-function printBillExtended(){
+/* PRINT BILL */
+function printBill(){
 let content=document.getElementById("bill").innerHTML;
-let mode=prompt("Enter Print Mode: A4 / Receipt / Custom","Receipt");
+let mode=document.getElementById("printMode").value;
 let width=400,height=600;
-if(mode.toLowerCase()=="a4"){width=800;height=600;}
-else if(mode.toLowerCase()=="custom"){width=parseInt(prompt("Enter width px","400"))||400; height=parseInt(prompt("Enter height px","600"))||600;}
+if(mode=="A4"){width=800;height=600;}
+else if(mode=="Custom"){
+width=parseInt(prompt("Enter width px","400"))||400;
+height=parseInt(prompt("Enter height px","600"))||600;
+}
 let win=window.open('','',`width=${width},height=${height}`);
 win.document.write(`<html><head><title>Print Bill</title>
-<style>body{font-family:monospace;padding:10px;}table{width:100%;border-collapse:collapse;}td,th{border:1px solid #000;padding:5px;text-align:center;}.totalRow td{font-weight:bold;}</style>
+<style>body{font-family:monospace;padding:10px;}table{width:100%;border-collapse:collapse;}td,th{border:1px solid #000;padding:5px;text-align:center;}.totalRow td{font-weight:bold;}.invoice{float:right;}</style>
 </head><body>${content}</body></html>`);
-win.document.close();win.print();
+win.document.close();
+win.print();
 }
-document.querySelector("button[onclick='printBill()']").onclick = printBillExtended;
 
-/* Daily / Weekly / Monthly Sale Reports */
+/* WHATSAPP */
+function sendWhatsApp(){
+let text="🧾 BILL RECEIPT\n\n"+bill.innerText;
+let url="https://wa.me/?text="+encodeURIComponent(text);
+window.open(url);
+}
+
+/* HISTORY */
+function downloadHistory(){
+let history=JSON.parse(localStorage.getItem("history"))||[];
+let csv="Invoice,Payment,Total,Date\n";
+history.forEach(h=>{
+csv+=h.invoice+","+h.payment+","+h.total+","+h.date+"\n";
+});
+let blob=new Blob([csv]);
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="history.csv";
+a.click();
+}
+
+/* DAILY / WEEKLY / MONTHLY SALE */
 function updateSaleReports(){
 let history=JSON.parse(localStorage.getItem("history"))||[];
 let today=new Date();
